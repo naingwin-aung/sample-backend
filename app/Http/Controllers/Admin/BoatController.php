@@ -68,4 +68,61 @@ class BoatController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function update(Request $request, int $id)
+    {
+        $request->validate([
+            'name'             => 'required|string|max:255',
+            'boat_type'        => 'required',
+            'boat_type.id'     => 'required|integer',
+            'capacity'         => 'required|integer',
+            'seat_type'        => 'required|string',
+            'images'           => 'nullable|array',
+            'images.*'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'old_images'       => 'nullable|array',
+            'zones'            => 'required_if:seat_type,==,zone',
+            'zones.*.name'     => 'required_with:zones|string|max:255',
+            'zones.*.capacity' => 'required_with:zones|integer|min:1',
+            'zones.*.images'   => 'nullable|array',
+            'zones.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $this->service->update($request, $id);
+
+            DB::commit();
+            return success([], 'Boat updated successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return error($e->getMessage());
+        }
+    }
+
+    public function show(int $id)
+    {
+        try {
+            $boat = $this->service->getById($id);
+
+            return success([
+                'boat' => $boat,
+            ], 'Boat retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    public function destroy(int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $this->service->delete($id);
+
+            DB::commit();
+            return success([], 'Boat deleted successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return error($e->getMessage());
+        }
+    }
 }
