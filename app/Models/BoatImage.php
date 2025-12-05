@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Image;
 use Illuminate\Database\Eloquent\Model;
 
 class BoatImage extends Model
@@ -11,5 +12,9 @@ class BoatImage extends Model
     protected $fillable = [
         'boat_id',
         'url'
+    ];
+
+    protected $casts = [
+        'url' => Image::class,
     ];
 }

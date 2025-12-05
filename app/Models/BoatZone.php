@@ -13,4 +13,9 @@ class BoatZone extends Model
         'name',
         'capacity',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(ZoneImage::class, 'zone_id', 'id');
+    }
 }

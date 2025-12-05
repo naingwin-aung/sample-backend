@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Image;
 use Illuminate\Database\Eloquent\Model;
 
 class ZoneImage extends Model
@@ -11,5 +12,9 @@ class ZoneImage extends Model
     protected $fillable = [
         'zone_id',
         'url'
+    ];
+
+    protected $casts = [
+        'url' => Image::class,
     ];
 }
