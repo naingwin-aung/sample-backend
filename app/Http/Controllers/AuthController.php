@@ -16,12 +16,10 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        dd('here');
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required|string|min:6',
         ]);
-        dd($request->all());
 
         try {
             ['user' => $user, 'token' => $token] = $this->service->login($request);

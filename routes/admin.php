@@ -4,4 +4,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PierController;
 use App\Http\Controllers\ProductController;
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/', function () {
+    return response()->json(['message' => 'Admin route works!']);
+});
