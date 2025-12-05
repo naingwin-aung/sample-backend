@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Services\ProductService;
+use App\Http\Controllers\Controller;
+use App\Services\Api\ProductService;
 
 class ProductController extends Controller
 {

@@ -1,5 +1,5 @@
 <?php
-namespace App\Services;
+namespace App\Services\Api;
 
 use Exception;
 use App\Models\User;

@@ -1,14 +1,14 @@
 <?php
-namespace App\Services;
+namespace App\Services\Api;
 
-use App\Models\Product;
+use App\Models\Pier;
 use Illuminate\Http\Request;
 
-class ProductService
+class PierService
 {
     public function listing(Request $request)
     {
-        $query = Product::query();
+        $query = Pier::query();
 
         if (isset($request->search)) {
             $query = $query->where(function ($q) use ($request) {
@@ -16,9 +16,13 @@ class ProductService
             });
         }
 
-        $products = $query->orderBy('id', 'desc')
+        if(isset($request->except_pier_id)) {
+            $query = $query->where('id', '!=', $request->except_pier_id);
+        }
+
+        $piers = $query->orderBy('id', 'desc')
             ->paginate($request->limit ?? 10);
 
-        return $products;
+        return $piers;
     }
 }

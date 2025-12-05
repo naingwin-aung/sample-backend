@@ -1,8 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PierController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PierController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('oauth/{provider}/callback', [AuthController::class, 'handleCallback']);

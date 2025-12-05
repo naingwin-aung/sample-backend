@@ -1,9 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PierController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\BoatController;
 
-Route::post('/', function () {
-    return response()->json(['message' => 'Admin route works!']);
-});
+Route::apiResources([
+    'boats' => BoatController::class,
+]);

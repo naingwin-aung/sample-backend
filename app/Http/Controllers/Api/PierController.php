@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\Pier;
 use Illuminate\Http\Request;
-use App\Services\PierService;
+use App\Services\Api\PierService;
+use App\Http\Controllers\Controller;
 
 class PierController extends Controller
 {
