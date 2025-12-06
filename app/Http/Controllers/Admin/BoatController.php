@@ -47,7 +47,7 @@ class BoatController extends Controller
             'capacity'         => 'required|integer',
             'seat_type'        => 'required|string',
             'images'           => 'required|array',
-            'images.*'         => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'images.*'         => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'zones'            => 'required_if:seat_type,==,zone',
             'zones.*.name'     => 'required_with:zones|string|max:255',
             'zones.*.capacity' => 'required_with:zones|integer|min:1',
