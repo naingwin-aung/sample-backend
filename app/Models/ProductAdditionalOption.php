@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductTicketPrice extends Model
+class ProductAdditionalOption extends Model
 {
-    protected $table = 'product_ticket_prices';
+    protected $table = 'product_additional_options';
 
     protected $fillable = [
         'product_id',
         'option_id',
-        'ticket_id',
-        'name',
+        'additional_option_id',
         'selling_price',
         'net_price',
     ];

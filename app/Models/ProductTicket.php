@@ -14,4 +14,9 @@ class ProductTicket extends Model
         'name',
         'short_description',
     ];
+
+    public function prices()
+    {
+        return $this->hasMany(ProductTicketPrice::class, 'ticket_id');
+    }
 }

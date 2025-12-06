@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Product\CreateRequest;
 use App\Services\Admin\ProductService;
+use App\Http\Requests\Admin\Product\CreateRequest;
 
 class ProductController extends Controller
 {
@@ -40,6 +41,17 @@ class ProductController extends Controller
 
     public function store(CreateRequest $request)
     {
-        
+        DB::beginTransaction();
+        try {
+            $product = $this->service->create($request);
+
+            DB::commit();
+            return success([
+                'product' => $product,
+            ], 'Product created successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return error($e->getMessage());
+        }
     }
 }

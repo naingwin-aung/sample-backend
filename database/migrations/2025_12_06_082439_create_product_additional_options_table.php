@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_ticket_prices', function (Blueprint $table) {
+        Schema::create('product_additional_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('option_id')->nullable()->constrained('product_options')->nullOnDelete();
-            $table->foreignId('ticket_id')->nullable()->constrained('product_tickets')->nullOnDelete();
-            $table->string('name')->nullable();
-            $table->decimal('selling_price', 10, 2)->nullable();
-            $table->decimal('net_price', 10, 2)->nullable();
+            $table->foreignId('additional_option_id')->nullable()->constrained('additional_options')->nullOnDelete();
+            $table->decimal('selling_price', 10, 2);
+            $table->decimal('net_price', 10, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_ticket_prices');
+        Schema::dropIfExists('product_additional_options');
     }
 };

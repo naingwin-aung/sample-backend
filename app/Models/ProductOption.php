@@ -24,4 +24,9 @@ class ProductOption extends Model
         'closing_dates' => 'array',
         'closing_days' => 'array',
     ];
+
+    public function tickets()
+    {
+        return $this->hasMany(ProductTicket::class, 'option_id');
+    }
 }
