@@ -3,6 +3,7 @@ namespace App\Services\Admin;
 
 use Exception;
 use App\Models\Boat;
+use App\Models\BoatType;
 use App\Models\BoatZone;
 use App\Models\BoatImage;
 use App\Models\ZoneImage;
@@ -33,6 +34,8 @@ class BoatService
 
     public function create(Request $request)
     {
+        BoatType::findOrFail(isset($request->boat_type['id']) ? $request->boat_type['id'] : null);
+
         $boat = Boat::create([
             'name'         => $request->name,
             'boat_type_id' => isset($request->boat_type['id']) ? $request->boat_type['id'] : null,
@@ -79,6 +82,8 @@ class BoatService
 
     public function update(Request $request, $id)
     {
+        BoatType::findOrFail(isset($request->boat_type['id']) ? $request->boat_type['id'] : null);
+
         $boat = $this->getById($id);
         $boat->update([
             'name'         => $request->name,
