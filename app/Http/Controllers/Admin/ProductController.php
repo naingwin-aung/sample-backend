@@ -54,4 +54,17 @@ class ProductController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $product = $this->service->getById($id);
+
+            return success([
+                'product' => $product,
+            ], 'Product retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }

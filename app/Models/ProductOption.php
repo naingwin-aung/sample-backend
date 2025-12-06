@@ -29,4 +29,14 @@ class ProductOption extends Model
     {
         return $this->hasMany(ProductTicket::class, 'option_id');
     }
+
+    public function boat()
+    {
+        return $this->belongsTo(Boat::class, 'boat_id');
+    }
+
+    public function productAdditionalOptions()
+    {
+        return $this->hasMany(ProductAdditionalOption::class, 'option_id');
+    }
 }

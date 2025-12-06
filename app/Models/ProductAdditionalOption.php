@@ -20,4 +20,9 @@ class ProductAdditionalOption extends Model
         'selling_price' => 'float',
         'net_price' => 'float',
     ];
+
+    public function additionalOption()
+    {
+        return $this->belongsTo(AdditionalOption::class, 'additional_option_id');
+    }
 }

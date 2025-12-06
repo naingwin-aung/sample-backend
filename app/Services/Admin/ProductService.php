@@ -65,6 +65,19 @@ class ProductService
         return $product;
     }
 
+    public function getById($id)
+    {
+        $product = Product::with([
+            'images',
+            'piers',
+            'options.boat',
+            'options.productAdditionalOptions.additionalOption',
+            'options.tickets.prices',
+        ])->findOrFail($id);
+
+        return $product;
+    }
+
     private function _createImages(Product $product, $files)
     {
         foreach ($files as $image) {
