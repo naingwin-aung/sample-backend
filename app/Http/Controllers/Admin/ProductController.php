@@ -82,4 +82,18 @@ class ProductController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $this->service->delete($id);
+
+            DB::commit();
+            return success([], 'Product deleted successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return error($e->getMessage());
+        }
+    }
 }

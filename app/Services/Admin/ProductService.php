@@ -134,6 +134,12 @@ class ProductService
         return $product;
     }
 
+    public function delete($id)
+    {
+        $product = $this->getById($id);
+        $product->delete();
+    }
+
     private function _createImages(Product $product, $files)
     {
         foreach ($files as $image) {
