@@ -8,7 +8,8 @@ class ProductService
 {
     public function listing(Request $request)
     {
-        $query = Product::query();
+        $query = Product::with(['images', 'piers'])
+            ->withMin('ticketPrices', 'net_price');
 
         if (isset($request->search)) {
             $query = $query->where(function ($q) use ($request) {

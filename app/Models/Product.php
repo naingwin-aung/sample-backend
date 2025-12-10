@@ -28,4 +28,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
+
+    public function ticketPrices()
+    {
+        return $this->hasMany(ProductTicketPrice::class, 'product_id', 'id');
+    }
 }

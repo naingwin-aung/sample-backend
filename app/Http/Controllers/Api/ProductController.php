@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\ProductService;
+use App\Http\Resources\Api\Product\ProductListingResource;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,8 @@ class ProductController extends Controller
                 'limit'    => $products->perPage(),
                 'total'    => $products->total(),
                 'has_more' => $products->hasMorePages(),
-                'data'     => $products->items(),
+                // 'data'     => $products->items(),
+                'data'     => ProductListingResource::collection($products->items()),
             ], 'Products retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
