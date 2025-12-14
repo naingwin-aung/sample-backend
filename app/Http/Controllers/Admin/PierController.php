@@ -102,4 +102,17 @@ class PierController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function allPiers()
+    {
+        try {
+            $piers = $this->service->getAllPiers();
+
+            return success([
+                'data' => $piers,
+            ], 'All piers retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }

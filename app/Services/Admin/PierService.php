@@ -52,4 +52,11 @@ class PierService
         $pier = $this->getById($id);
         $pier->delete();
     }
+
+    public function getAllPiers()
+    {
+        return Pier::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
 }
