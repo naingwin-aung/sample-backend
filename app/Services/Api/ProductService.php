@@ -22,4 +22,17 @@ class ProductService
 
         return $products;
     }
+
+    public function getByProduct($slug)
+    {
+        $product = Product::with([
+            'images',
+            'piers',
+            'options.boat.images',
+        ])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return $product;
+    }
 }

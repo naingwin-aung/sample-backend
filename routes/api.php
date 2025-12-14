@@ -9,6 +9,7 @@ Route::post('oauth/{provider}/callback', [AuthController::class, 'handleCallback
 
 Route::get('/piers', [PierController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{slug}', [ProductController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);

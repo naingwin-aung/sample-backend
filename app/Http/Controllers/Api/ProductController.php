@@ -17,8 +17,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'page' => 'required|numeric|min:1',
-            'limit'  => 'required|numeric|min:1|max:100',
+            'page'  => 'required|numeric|min:1',
+            'limit' => 'required|numeric|min:1|max:100',
         ]);
 
         try {
@@ -29,9 +29,21 @@ class ProductController extends Controller
                 'limit'    => $products->perPage(),
                 'total'    => $products->total(),
                 'has_more' => $products->hasMorePages(),
-                // 'data'     => $products->items(),
                 'data'     => ProductListingResource::collection($products->items()),
             ], 'Products retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    public function show($slug)
+    {
+        try {
+            $product = $this->service->getByProduct($slug);
+
+            return success([
+                'product' => $product,
+            ], 'Product retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
         }
