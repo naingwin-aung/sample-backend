@@ -23,8 +23,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name'                                       => 'required|string|max:255',
-            'on_board_piers'                             => 'required|array',
-            'on_board_piers.*.id'                        => 'required|integer',
+            'piers'                             => 'required|array',
+            'piers.*.id'                        => 'required|integer',
             'description'                                => 'required|string',
             'images'                                     => 'nullable|array',
             'images.*'                                   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',

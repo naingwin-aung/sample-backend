@@ -38,10 +38,10 @@ class ProductService
         $product->update();
 
         // handle onboard pier
-        if (isset($request->on_board_piers) && is_array($request->on_board_piers)) {
+        if (isset($request->piers) && is_array($request->piers)) {
             $pierIds = array_map(function ($pier) {
                 return $pier['id'];
-            }, $request->on_board_piers);
+            }, $request->piers);
 
             $product->piers()->sync($pierIds);
         }
@@ -92,10 +92,10 @@ class ProductService
         ]);
 
         // handle onboard piers
-        if (isset($request->on_board_piers) && is_array($request->on_board_piers)) {
+        if (isset($request->piers) && is_array($request->piers)) {
             $pierIds = array_map(function ($pier) {
                 return $pier['id'];
-            }, $request->on_board_piers);
+            }, $request->piers);
 
             $product->piers()->sync($pierIds);
         }

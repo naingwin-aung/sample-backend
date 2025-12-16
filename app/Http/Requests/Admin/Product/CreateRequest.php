@@ -23,8 +23,8 @@ class CreateRequest extends FormRequest
     {
         return [
             'name'                                       => 'required|string|max:255',
-            'on_board_piers'                             => 'required|array',
-            'on_board_piers.*.id'                        => 'required|integer',
+            'piers'                             => 'required|array',
+            'piers.*.id'                        => 'required|integer',
             'description'                                => 'required|string',
             'images'                                     => 'required|array',
             'images.*'                                   => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
