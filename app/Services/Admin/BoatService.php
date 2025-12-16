@@ -224,4 +224,11 @@ class BoatService
             }
         }
     }
+
+    public function getAllBoats()
+    {
+        return Boat::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
 }

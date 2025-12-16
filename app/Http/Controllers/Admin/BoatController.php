@@ -125,4 +125,17 @@ class BoatController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function allBoats()
+    {
+        try {
+            $boats = $this->service->getAllBoats();
+
+            return success([
+                'data' => $boats,
+            ], 'All boats retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }

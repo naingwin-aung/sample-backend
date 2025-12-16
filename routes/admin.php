@@ -13,3 +13,4 @@ Route::apiResources([
 ]);
 
 Route::get('all/piers', [PierController::class, 'allPiers']);
+Route::get('all/boats', [BoatController::class, 'allBoats']);

@@ -155,15 +155,24 @@ class ProductService
     private function _createProductOption(Product $product, $boatData)
     {
         $option = $product->options()->create([
-            'boat_id'       => $boatData['boat']['id'],
-            'start_time'    => $boatData['start_time'],
-            'end_time'      => $boatData['end_time'],
+            'boat_id'       => $boatData['boat_id'],
             'start_date'    => $boatData['start_date'],
             'end_date'      => $boatData['end_date'],
             'closing_type'  => isset($boatData['closing_type']) ? $boatData['closing_type'] : null,
             'closing_dates' => isset($boatData['closing_type']) && $boatData['closing_type'] != 'closing_day' ? $boatData['closing_dates'] ?? [] : [],
             'closing_days'  => isset($boatData['closing_type']) && $boatData['closing_type'] == 'closing_day' ? $boatData['closing_days'] ?? [] : [],
         ]);
+
+        // handle schedule times
+        if (isset($boatData['schedule_times']) && is_array($boatData['schedule_times'])) {
+            foreach ($boatData['schedule_times'] as $scheduleTimeData) {
+                $option->scheduleTimes()->create([
+                    'product_id' => $product->id,
+                    'start_time' => $scheduleTimeData['start_time'],
+                    'end_time'   => $scheduleTimeData['end_time'],
+                ]);
+            }
+        }
 
         // handel additional options
         if (isset($boatData['additional_options']) && is_array($boatData['additional_options'])) {
@@ -223,15 +232,16 @@ class ProductService
 
                 if ($currentBoat) {
                     $currentBoat->update([
-                        'boat_id'       => $boatData['boat']['id'],
-                        'start_time'    => $boatData['start_time'],
-                        'end_time'      => $boatData['end_time'],
+                        'boat_id'       => $boatData['boat_id'],
                         'start_date'    => $boatData['start_date'],
                         'end_date'      => $boatData['end_date'],
                         'closing_type'  => isset($boatData['closing_type']) ? $boatData['closing_type'] : null,
                         'closing_dates' => isset($boatData['closing_type']) && $boatData['closing_type'] != 'closing_day' ? $boatData['closing_dates'] ?? [] : [],
                         'closing_days'  => isset($boatData['closing_type']) && $boatData['closing_type'] == 'closing_day' ? $boatData['closing_days'] ?? [] : [],
                     ]);
+
+                    // handle schedule times
+                    $this->_updateScheduleTimes($boatData, $currentBoat, $product);
 
                     // handel additional options
                     $this->_updateAdditionalOptions($boatData, $currentBoat, $product);
@@ -254,10 +264,10 @@ class ProductService
             $option->productAdditionalOptions()->delete();
         }
 
-        if(!isset($boatData['additional_options'])) {
+        if (!isset($boatData['additional_options'])) {
             return;
         }
-        
+
         foreach ($boatData['additional_options'] as $additionalOptionData) {
             $currentAdditionalOption = null;
 
@@ -285,7 +295,7 @@ class ProductService
     public function _updateTickets($boatData, $option, $product)
     {
         $currentTicketIds = collect($boatData['tickets'])->pluck('id')->filter();
-        if($currentTicketIds->isNotEmpty()) {
+        if ($currentTicketIds->isNotEmpty()) {
             $option->tickets()->whereNotIn('id', $currentTicketIds)->delete();
         } else {
             $option->tickets()->delete();
@@ -304,7 +314,7 @@ class ProductService
                     ]);
 
                     $currentPriceIds = collect($ticketData['prices'])->pluck('id')->filter();
-                    if($currentPriceIds->isNotEmpty()) {
+                    if ($currentPriceIds->isNotEmpty()) {
                         $currentTicket->prices()->whereNotIn('id', $currentPriceIds)->delete();
                     } else {
                         $currentTicket->prices()->delete();
@@ -355,6 +365,38 @@ class ProductService
                         ]);
                     }
                 }
+            }
+        }
+    }
+
+    public function _updateScheduleTimes($boatData, $option, $product)
+    {
+        $currentScheduleTimeIds = collect($boatData['schedule_times'])->pluck('id')->filter();
+        if ($currentScheduleTimeIds->isNotEmpty()) {
+            $option->scheduleTimes()->whereNotIn('id', $currentScheduleTimeIds)->delete();
+        } else {
+            $option->scheduleTimes()->delete();
+        }
+
+        foreach ($boatData['schedule_times'] as $scheduleTimeData) {
+            $currentScheduleTime = null;
+
+            if ($scheduleTimeData['id'] && is_numeric($scheduleTimeData['id'])) {
+                $currentScheduleTime = $option->scheduleTimes()->where('id', $scheduleTimeData['id'])->first();
+
+                if ($currentScheduleTime) {
+                    $currentScheduleTime->update([
+                        'start_time' => $scheduleTimeData['start_time'],
+                        'end_time'   => $scheduleTimeData['end_time'],
+                    ]);
+                }
+            } else {
+                // create new schedule time
+                $option->scheduleTimes()->create([
+                    'product_id' => $product->id,
+                    'start_time' => $scheduleTimeData['start_time'],
+                    'end_time'   => $scheduleTimeData['end_time'],
+                ]);
             }
         }
     }

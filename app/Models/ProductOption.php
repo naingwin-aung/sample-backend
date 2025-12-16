@@ -11,8 +11,6 @@ class ProductOption extends Model
     protected $fillable = [
         'product_id',
         'boat_id',
-        'start_time',
-        'end_time',
         'start_date',
         'end_date',
         'closing_type',
@@ -22,8 +20,13 @@ class ProductOption extends Model
 
     protected $casts = [
         'closing_dates' => 'array',
-        'closing_days' => 'array',
+        'closing_days'  => 'array',
     ];
+
+    public function scheduleTimes()
+    {
+        return $this->hasMany(ProductScheduleTime::class, 'option_id');
+    }
 
     public function tickets()
     {
