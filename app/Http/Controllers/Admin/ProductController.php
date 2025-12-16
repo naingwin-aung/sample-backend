@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\ProductService;
 use App\Http\Requests\Admin\Product\CreateRequest;
 use App\Http\Requests\Admin\Product\UpdateRequest;
+use App\Http\Resources\Admin\Product\ProductDetailResource;
 
 class ProductController extends Controller
 {
@@ -62,7 +63,7 @@ class ProductController extends Controller
             $product = $this->service->getById($id);
 
             return success([
-                'product' => $product,
+                'product' => ProductDetailResource::make($product),
             ], 'Product retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
