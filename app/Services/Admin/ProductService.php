@@ -73,6 +73,7 @@ class ProductService
             'images',
             'piers',
             'options.boat',
+            'options.scheduleTimes',
             'options.productAdditionalOptions.additionalOption',
             'options.tickets.prices',
         ])->findOrFail($id);

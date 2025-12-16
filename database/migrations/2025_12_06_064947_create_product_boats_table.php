@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('boat_id')->nullable()->constrained()->nullOnDelete();
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('closing_type')->nullable();
