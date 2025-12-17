@@ -22,10 +22,11 @@ class ProductOptionResource extends JsonResource
             'closing_dates' => $this->closing_dates,
             'closing_days'  => $this->closing_days,
             'boat'          => [
-                'id'       => $this->boat->id,
-                'name'     => $this->boat->name,
-                'capacity' => $this->boat->capacity,
-                'images'   => ProductImageResource::collection($this->boat->images),
+                'id'          => $this->boat->id,
+                'name'        => $this->boat->name,
+                'capacity'    => $this->boat->capacity,
+                'description' => fake()->paragraphs(3, true),
+                'images'      => ProductImageResource::collection($this->boat->images),
             ]
         ];
     }

@@ -30,6 +30,7 @@ class ProductService
             'piers',
             'options.boat.images',
         ])
+            ->withMin('ticketPrices', 'net_price')
             ->where('slug', $slug)
             ->firstOrFail();
 

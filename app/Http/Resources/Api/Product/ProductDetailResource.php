@@ -19,6 +19,7 @@ class ProductDetailResource extends JsonResource
             'name'        => $this->name,
             'slug'        => $this->slug,
             'description' => $this->description,
+            'min_price'   => $this->ticket_prices_min_net_price * 1,
             'images'      => ProductImageResource::collection($this->whenLoaded('images')),
             'piers'       => ProductPierResource::collection($this->whenLoaded('piers')),
             'options'     => ProductOptionResource::collection($this->whenLoaded('options')),
