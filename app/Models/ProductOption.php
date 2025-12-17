@@ -33,6 +33,11 @@ class ProductOption extends Model
         return $this->hasMany(ProductTicket::class, 'option_id');
     }
 
+    public function ticketPrices()
+    {
+        return $this->hasMany(ProductTicketPrice::class, 'option_id');
+    }
+
     public function boat()
     {
         return $this->belongsTo(Boat::class, 'boat_id');

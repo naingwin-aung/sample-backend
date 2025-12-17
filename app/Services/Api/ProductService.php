@@ -28,6 +28,9 @@ class ProductService
         $product = Product::with([
             'images',
             'piers',
+            'options' => function ($query) {
+                $query->withMin('ticketPrices', 'net_price');
+            },
             'options.boat.images',
         ])
             ->withMin('ticketPrices', 'net_price')

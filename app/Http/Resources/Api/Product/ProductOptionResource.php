@@ -21,6 +21,7 @@ class ProductOptionResource extends JsonResource
             'closing_type'  => $this->closing_type,
             'closing_dates' => $this->closing_dates,
             'closing_days'  => $this->closing_days,
+            'min_price'     => $this->ticket_prices_min_net_price * 1,
             'boat'          => [
                 'id'          => $this->boat->id,
                 'name'        => $this->boat->name,
