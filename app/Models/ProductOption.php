@@ -23,6 +23,11 @@ class ProductOption extends Model
         'closing_days'  => 'array',
     ];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
     public function scheduleTimes()
     {
         return $this->hasMany(ProductScheduleTime::class, 'option_id');
