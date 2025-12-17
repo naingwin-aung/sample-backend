@@ -40,7 +40,7 @@ class BoatService
             'name'         => $request->name,
             'boat_type_id' => isset($request->boat_type['id']) ? $request->boat_type['id'] : null,
             'capacity'     => $request->capacity,
-            'seat_type'    => $request->seat_type,
+            'seat_type'    => $request->seat_type ?? 'zone',
         ]);
 
         // Handle images
@@ -89,7 +89,7 @@ class BoatService
             'name'         => $request->name,
             'boat_type_id' => isset($request->boat_type['id']) ? $request->boat_type['id'] : null,
             'capacity'     => $request->capacity,
-            'seat_type'    => $request->seat_type,
+            'seat_type'    => $request->seat_type ?? 'zone',
         ]);
 
         $currentZoneIds = collect($request->zones)->pluck('id')->filter();

@@ -52,4 +52,11 @@ class BoatTypeService
         $type = $this->getById($id);
         $type->delete();
     }
+
+    public function getAllBoatTypes()
+    {
+        return BoatType::select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
+    }
 }

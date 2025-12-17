@@ -102,4 +102,17 @@ class BoatTypeController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function allBoatTypes()
+    {
+        try {
+            $types = $this->service->getAllBoatTypes();
+
+            return success([
+                'data' => $types,
+            ], 'All boat types retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }
