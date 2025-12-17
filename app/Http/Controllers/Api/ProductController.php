@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Product\ProductDetailResource;
 use App\Services\Api\ProductService;
 use App\Http\Resources\Api\Product\ProductListingResource;
 
@@ -42,7 +43,8 @@ class ProductController extends Controller
             $product = $this->service->getByProduct($slug);
 
             return success([
-                'product' => $product,
+                // 'product' => $product,
+                'product' => ProductDetailResource::make($product),
             ], 'Product retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
