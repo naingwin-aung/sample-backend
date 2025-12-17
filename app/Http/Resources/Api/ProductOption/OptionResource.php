@@ -21,6 +21,8 @@ class OptionResource extends JsonResource
             'closing_type'  => $this->closing_type,
             'closing_dates' => $this->closing_dates,
             'closing_days'  => $this->closing_days,
+            'zones'         => $this->boat->zones,
+            'schedule_times'=> ProductOptionScheduleTimeResource::collection($this->whenLoaded('scheduleTimes')),
             'tickets'       => OptionTicketResource::collection($this->whenLoaded('tickets')),
         ];
     }

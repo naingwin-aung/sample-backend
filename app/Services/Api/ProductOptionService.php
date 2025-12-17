@@ -11,7 +11,7 @@ class ProductOptionService
             ->whereHas('product', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             })
-            ->with(['tickets.prices'])
+            ->with(['boat.zones.images', 'tickets.prices', 'scheduleTimes'])
             ->firstOrFail();
             
         return $option;
