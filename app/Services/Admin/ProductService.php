@@ -218,7 +218,10 @@ class ProductService
 
     private function _updateOptions(Request $request, Product $product)
     {
-        $currentOptionIds = collect($request->boats)->pluck('id')->filter();
+        $currentOptionIds = collect($request->boats)->pluck('id')->filter(function ($id) {
+            return is_numeric($id);
+        });
+
         if ($currentOptionIds->isNotEmpty()) {
             $product->options()->whereNotIn('id', $currentOptionIds)->delete();
         } else {
@@ -258,7 +261,9 @@ class ProductService
 
     private function _updateAdditionalOptions($boatData, $option, $product)
     {
-        $currentAdditionalOptionIds = isset($boatData['additional_options']) ? collect($boatData['additional_options'])->pluck('id')->filter() : collect();
+        $currentAdditionalOptionIds = isset($boatData['additional_options']) ? collect($boatData['additional_options'])->pluck('id')->filter(function ($id) {
+            return is_numeric($id);
+        }) : collect();
         if ($currentAdditionalOptionIds->isNotEmpty()) {
             $option->productAdditionalOptions()->whereNotIn('id', $currentAdditionalOptionIds)->delete();
         } else {
@@ -295,7 +300,10 @@ class ProductService
 
     public function _updateTickets($boatData, $option, $product)
     {
-        $currentTicketIds = collect($boatData['tickets'])->pluck('id')->filter();
+        $currentTicketIds = collect($boatData['tickets'])->pluck('id')->filter(function ($id) {
+            return is_numeric($id);
+        });
+
         if ($currentTicketIds->isNotEmpty()) {
             $option->tickets()->whereNotIn('id', $currentTicketIds)->delete();
         } else {
@@ -314,7 +322,10 @@ class ProductService
                         'short_description' => $ticketData['short_description'] ?? null,
                     ]);
 
-                    $currentPriceIds = collect($ticketData['prices'])->pluck('id')->filter();
+                    $currentPriceIds = collect($ticketData['prices'])->pluck('id')->filter(function ($id) {
+                        return is_numeric($id);
+                    });
+                    
                     if ($currentPriceIds->isNotEmpty()) {
                         $currentTicket->prices()->whereNotIn('id', $currentPriceIds)->delete();
                     } else {
@@ -372,7 +383,10 @@ class ProductService
 
     public function _updateScheduleTimes($boatData, $option, $product)
     {
-        $currentScheduleTimeIds = collect($boatData['schedule_times'])->pluck('id')->filter();
+        $currentScheduleTimeIds = collect($boatData['schedule_times'])->pluck('id')->filter(function ($id) {
+            return is_numeric($id);
+        });
+
         if ($currentScheduleTimeIds->isNotEmpty()) {
             $option->scheduleTimes()->whereNotIn('id', $currentScheduleTimeIds)->delete();
         } else {
