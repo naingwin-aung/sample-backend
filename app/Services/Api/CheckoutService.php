@@ -18,6 +18,19 @@ class CheckoutService
         return $this->products;
     }
 
+    public function confirmCheckout(array $data)
+    {
+        $this->_validateData($data);
+
+        foreach( $this->products as $product) {
+            if($product['product_type'] === ProductTypeEnum::BOAT->value) {
+                dd($product);
+            } else {
+                throw new Exception('Unsupported product type: ' . $product['product_type']);
+            }
+        }
+    }
+
     private function _validateData(array $data)
     {
         foreach ($data['products'] as $product) {

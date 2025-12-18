@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\Checkout;
 
+use App\ProductTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Checkout\BoatCheckoutResource;
@@ -19,7 +20,7 @@ class CheckoutResource extends JsonResource
             'product_type' => $this['product_type'],
         ];
 
-        if ($this['product_type'] === 'boat') {
+        if ($this['product_type'] === ProductTypeEnum::BOAT->value) {
             $result['product'] = BoatCheckoutResource::make($this->resource)->toArray($request);
         }
 

@@ -15,6 +15,7 @@ Route::get('/products/{slug}', [ProductController::class, 'show']);
 Route::get('/products/{slug}/options/{optionId}', [ProductOptionController::class, 'index']);
 
 Route::post('checkout', [CheckoutController::class, 'index']);
+Route::post('checkout/confirm', [CheckoutController::class, 'confirm']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);

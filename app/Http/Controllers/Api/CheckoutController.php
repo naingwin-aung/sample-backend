@@ -47,4 +47,29 @@ class CheckoutController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function confirm(Request $request)
+    {
+        $request->validate([
+            'products'                         => 'required|array',
+            'products.*.product_type'          => 'required|string', // boat
+            'products.*.product_id'            => 'required_if:products.*.type,boat|integer',
+            'products.*.option_id'             => 'required_if:products.*.type,boat|integer',
+            'products.*.zone_id'               => 'required_if:products.*.type,boat|integer',
+            'products.*.ticket_id'             => 'required_if:products.*.type,boat|integer',
+            'products.*.schedule_time_id'      => 'required_if:products.*.type,boat|integer',
+            'products.*.date'                  => 'required_if:products.*.type,boat|date',
+            'products.*.quantities.*'          => 'required_if:products.*.type,boat|array',
+            'products.*.quantities.*.id'       => 'required_if:products.*.type,boat|integer',
+            'products.*.quantities.*.quantity' => 'required_if:products.*.type,boat|integer|min:1',
+        ]);
+
+        try {
+            $products        = $this->service->confirmCheckout($request->all());
+
+            return success([], 'Checkout confirmed successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }
