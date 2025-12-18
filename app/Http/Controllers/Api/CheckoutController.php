@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\CheckoutService;
+use App\Http\Resources\Api\Checkout\CheckoutResource;
 
 class CheckoutController extends Controller
 {
@@ -27,14 +28,14 @@ class CheckoutController extends Controller
             'products.*.date'               => 'required_if:products.*.type,boat|date',
             'products.*.quantities.*'       => 'required_if:products.*.type,boat|array',
             'products.*.quantities.*.id'    => 'required_if:products.*.type,boat|integer',
-            'products.*.quantities.*.count' => 'required_if:products.*.type,boat|integer|min:1',
+            'products.*.quantities.*.quantity' => 'required_if:products.*.type,boat|integer|min:1',
         ]);
 
         try {
-            [$products] = $this->service->processCheckout($request->all());
+            $products = $this->service->processCheckout($request->all());
 
             return success([
-                'products' => $products,
+                'data' => CheckoutResource::collection($products),
             ], 'Checkout processed successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
