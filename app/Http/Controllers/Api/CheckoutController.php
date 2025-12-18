@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Services\Api\CheckoutService;
 use App\Http\Resources\Api\Checkout\CheckoutResource;
@@ -64,11 +65,14 @@ class CheckoutController extends Controller
             'products.*.quantities.*.quantity' => 'required_if:products.*.type,boat|integer|min:1',
         ]);
 
+        DB::beginTransaction();
         try {
-            $products        = $this->service->confirmCheckout($request->all());
+            $this->service->confirmCheckout($request->all());
 
+            DB::commit();
             return success([], 'Checkout confirmed successfully.');
         } catch (Exception $e) {
+            DB::rollBack();
             return error($e->getMessage());
         }
     }

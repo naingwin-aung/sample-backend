@@ -2,11 +2,13 @@
 namespace App\Services\Api;
 
 use Exception;
+use App\Models\Booking;
 use App\Models\BoatZone;
 use App\Models\ProductTicket;
-use App\Models\ProductTicketPrice;
+use App\Enums\ProductTypeEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Models\ProductScheduleTime;
-use App\ProductTypeEnum;
+use App\Services\Api\Checkout\BoatCheckoutService;
 
 class CheckoutService
 {
@@ -22,9 +24,17 @@ class CheckoutService
     {
         $this->_validateData($data);
 
-        foreach( $this->products as $product) {
-            if($product['product_type'] === ProductTypeEnum::BOAT->value) {
-                dd($product);
+        $booking                    = new Booking();
+        $booking->booking_number    = 'BN-' . strtoupper(uniqid());
+        $booking->payment_reference = 'PR-' . strtoupper(uniqid());
+        $booking->user_id           = 1;
+        $booking->payment_status    = PaymentStatusEnum::PENDING->value;
+        $booking->request_payload   = $data;
+        $booking->save();
+
+        foreach ($this->products as $product) {
+            if ($product['product_type'] === ProductTypeEnum::BOAT->value) {
+                (new BoatCheckoutService($booking))->create($product);
             } else {
                 throw new Exception('Unsupported product type: ' . $product['product_type']);
             }

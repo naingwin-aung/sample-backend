@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Api\Checkout;
 
-use App\ProductTypeEnum;
 use Illuminate\Http\Request;
+use App\Enums\ProductTypeEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Checkout\BoatCheckoutResource;
 
