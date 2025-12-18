@@ -5,10 +5,10 @@ use App\Models\Booking;
 use App\Models\Product;
 use App\Models\BookingItem;
 use App\Enums\ProductTypeEnum;
-use App\Models\BookingProduct;
+use App\Models\BookingBoat;
 use App\Enums\BookingStatusEnum;
 use App\Enums\PaymentStatusEnum;
-use App\Models\BookingProductDetail;
+use App\Models\BookingBoatDetail;
 
 class BoatCheckoutService
 {
@@ -26,10 +26,10 @@ class BoatCheckoutService
             return $carry + $item['quantity'];
         }, 0);
 
-        $grand_total     = $sub_total; // No additional fees for now
-        $booking_item    = $this->_saveBookingItem($data, $sub_total, $grand_total);
-        $booking_product = $this->_saveBookingProduct($data, $booking_item, $total_quantity, $sub_total, $grand_total);
-        $this->_saveBookingProductDetail($data, $booking_product);
+        $grand_total  = $sub_total; // No additional fees for now
+        $booking_item = $this->_saveBookingItem($data, $sub_total, $grand_total);
+        $booking_boat = $this->_saveBookingBoat($data, $booking_item, $total_quantity, $sub_total, $grand_total);
+        $this->_saveBookingBoatDetail($data, $booking_boat);
 
         return [
             'total_price' => $grand_total,
@@ -52,41 +52,41 @@ class BoatCheckoutService
         return $booking_item;
     }
 
-    private function _saveBookingProduct(array $data, BookingItem $booking_item, int $total_quantity, float $sub_total, float $grand_total)
+    private function _saveBookingBoat(array $data, BookingItem $booking_item, int $total_quantity, float $sub_total, float $grand_total)
     {
-        $booking_product                   = new BookingProduct();
-        $booking_product->booking_id       = $this->booking->id;
-        $booking_product->booking_item_id  = $booking_item->id;
-        $booking_product->product_id       = $data['ticket']['product_id'];
-        $booking_product->option_id        = $data['ticket']['option']['id'];
-        $booking_product->zone_id          = $data['zone']['id'];
-        $booking_product->ticket_id        = $data['ticket']['id'];
-        $booking_product->schedule_time_id = $data['schedule_time']['id'];
-        $booking_product->name             = $data['ticket']['product']['name'];
-        $booking_product->ticket_name      = $data['ticket']['name'];
-        $booking_product->date             = $data['date'];
-        $booking_product->total_quantity   = $total_quantity;
-        $booking_product->sub_total        = $sub_total;
-        $booking_product->grand_total      = $grand_total;
-        $booking_product->payment_status   = PaymentStatusEnum::PENDING->value;
-        $booking_product->booking_status   = BookingStatusEnum::PENDING->value;
-        $booking_product->save();
+        $booking_boat                   = new BookingBoat();
+        $booking_boat->booking_id       = $this->booking->id;
+        $booking_boat->booking_item_id  = $booking_item->id;
+        $booking_boat->product_id       = $data['ticket']['product_id'];
+        $booking_boat->option_id        = $data['ticket']['option']['id'];
+        $booking_boat->zone_id          = $data['zone']['id'];
+        $booking_boat->ticket_id        = $data['ticket']['id'];
+        $booking_boat->schedule_time_id = $data['schedule_time']['id'];
+        $booking_boat->name             = $data['ticket']['product']['name'];
+        $booking_boat->ticket_name      = $data['ticket']['name'];
+        $booking_boat->date             = $data['date'];
+        $booking_boat->total_quantity   = $total_quantity;
+        $booking_boat->sub_total        = $sub_total;
+        $booking_boat->grand_total      = $grand_total;
+        $booking_boat->payment_status   = PaymentStatusEnum::PENDING->value;
+        $booking_boat->booking_status   = BookingStatusEnum::PENDING->value;
+        $booking_boat->save();
 
-        return $booking_product;
+        return $booking_boat;
     }
 
-    private function _saveBookingProductDetail(array $data, BookingProduct $booking_product)
+    private function _saveBookingBoatDetail(array $data, BookingBoat $booking_boat)
     {
-        $booking_product_detail                     = new BookingProductDetail();
-        $booking_product_detail->booking_product_id = $booking_product->id;
-        $booking_product_detail->product            = $data['ticket']['product'];
-        $booking_product_detail->option             = $data['ticket']['option'] ?? null;
-        $booking_product_detail->zone               = $data['zone'] ?? null;
-        $booking_product_detail->ticket             = $data['ticket'] ?? null;
-        $booking_product_detail->schedule_time      = $data['schedule_time'] ?? null;
-        $booking_product_detail->variations         = $data['ticket']['prices'] ?? null;
-        $booking_product_detail->save();
+        $booking_boat_detail                  = new BookingBoatDetail();
+        $booking_boat_detail->booking_boat_id = $booking_boat->id;
+        $booking_boat_detail->product         = $data['ticket']['product'];
+        $booking_boat_detail->option          = $data['ticket']['option'] ?? null;
+        $booking_boat_detail->zone            = $data['zone'] ?? null;
+        $booking_boat_detail->ticket          = $data['ticket'] ?? null;
+        $booking_boat_detail->schedule_time   = $data['schedule_time'] ?? null;
+        $booking_boat_detail->variations      = $data['ticket']['prices'] ?? null;
+        $booking_boat_detail->save();
 
-        return $booking_product_detail;
+        return $booking_boat_detail;
     }
 }

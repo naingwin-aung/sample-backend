@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BookingProduct extends Model
+class BookingBoat extends Model
 {
-    protected $table = 'booking_products';
+    protected $table = 'booking_boats';
     
     protected $fillable = [
         'booking_id',

@@ -4,14 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up() : void
     {
-        Schema::create('booking_products', function (Blueprint $table) {
+        Schema::create('booking_boats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->nullable()->constrained('bookings')->nullOnDelete();
             $table->foreignId('booking_item_id')->nullable()->constrained('booking_items')->nullOnDelete();
@@ -35,8 +34,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down() : void
     {
-        Schema::dropIfExists('booking_products');
+        Schema::dropIfExists('booking_boats');
     }
 };
