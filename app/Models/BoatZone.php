@@ -18,4 +18,9 @@ class BoatZone extends Model
     {
         return $this->hasMany(ZoneImage::class, 'zone_id', 'id');
     }
+
+    public function boat()
+    {
+        return $this->belongsTo(Boat::class, 'boat_id', 'id');
+    }
 }

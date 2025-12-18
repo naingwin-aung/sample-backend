@@ -52,7 +52,8 @@ class CheckoutService
             $price->quantity = $quantitiesById->get($price->id)['quantity'] ?? 0;
         });
 
-        $zone = BoatZone::where('id', $data['zone_id'])
+        $zone = BoatZone::with('boat')
+            ->where('id', $data['zone_id'])
             ->firstOrFail();
 
         $scheduleTime = ProductScheduleTime::where('id', $data['schedule_time_id'])
@@ -60,6 +61,7 @@ class CheckoutService
 
         $this->products[] = [
             'product_type'  => ProductTypeEnum::BOAT->value,
+            'date'          => $data['date'],
             'ticket'        => $ticket,
             'zone'          => $zone,
             'schedule_time' => $scheduleTime,
