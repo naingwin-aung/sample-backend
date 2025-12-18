@@ -18,8 +18,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'page'  => 'required|numeric|min:1',
-            'limit' => 'required|numeric|min:1|max:100',
+            'page'         => 'required|numeric|min:1',
+            'limit'        => 'required|numeric|min:1|max:100',
+            'except_ids'   => 'sometimes|array',
+            'except_ids.*' => 'numeric',
         ]);
 
         try {

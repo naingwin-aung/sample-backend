@@ -17,6 +17,10 @@ class ProductService
             });
         }
 
+        if(isset($request->except_ids) && is_array($request->except_ids)) {
+            $query = $query->whereNotIn('id', $request->except_ids);
+        }
+
         $products = $query->orderBy('id', 'desc')
             ->paginate($request->limit ?? 10);
 
