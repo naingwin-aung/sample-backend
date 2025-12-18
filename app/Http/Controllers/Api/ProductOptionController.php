@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Models\ProductOption;
+use Exception;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\ProductOption\OptionResource;
 use App\Services\Api\ProductOptionService;
+use App\Http\Resources\Api\ProductOption\OptionResource;
 
 class ProductOptionController extends Controller
 {
@@ -16,11 +15,15 @@ class ProductOptionController extends Controller
 
     public function index($slug, $optionId)
     {
-        $option = $this->service->index($slug, $optionId);
-        
-        return success([
-            // 'data' => $option,
-            'data' => OptionResource::make($option),
-        ], 'Product option retrieved successfully.');
+        try {
+            $option = $this->service->index($slug, $optionId);
+
+            return success([
+                // 'data' => $option,
+                'data' => OptionResource::make($option),
+            ], 'Product option retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
     }
 }
