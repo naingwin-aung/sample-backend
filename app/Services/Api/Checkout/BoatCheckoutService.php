@@ -26,8 +26,18 @@ class BoatCheckoutService
             return $carry + $item['quantity'];
         }, 0);
 
-        $grand_total = $sub_total; // No additional fees for now
+        $grand_total     = $sub_total; // No additional fees for now
+        $booking_item    = $this->_saveBookingItem($data, $sub_total, $grand_total);
+        $booking_product = $this->_saveBookingProduct($data, $booking_item, $total_quantity, $sub_total, $grand_total);
+        $this->_saveBookingProductDetail($data, $booking_product);
 
+        return [
+            'total_price' => $grand_total,
+        ];
+    }
+
+    private function _saveBookingItem(array $data, float $sub_total, float $grand_total)
+    {
         $booking_item                   = new BookingItem();
         $booking_item->booking_id       = $this->booking->id;
         $booking_item->product_type     = ProductTypeEnum::BOAT->value;
@@ -39,6 +49,11 @@ class BoatCheckoutService
         $booking_item->booking_status   = BookingStatusEnum::PENDING->value;
         $booking_item->save();
 
+        return $booking_item;
+    }
+
+    private function _saveBookingProduct(array $data, BookingItem $booking_item, int $total_quantity, float $sub_total, float $grand_total)
+    {
         $booking_product                   = new BookingProduct();
         $booking_product->booking_id       = $this->booking->id;
         $booking_product->booking_item_id  = $booking_item->id;
@@ -57,6 +72,11 @@ class BoatCheckoutService
         $booking_product->booking_status   = BookingStatusEnum::PENDING->value;
         $booking_product->save();
 
+        return $booking_product;
+    }
+
+    private function _saveBookingProductDetail(array $data, BookingProduct $booking_product)
+    {
         $booking_product_detail                     = new BookingProductDetail();
         $booking_product_detail->booking_product_id = $booking_product->id;
         $booking_product_detail->product            = $data['ticket']['product'];
@@ -67,8 +87,6 @@ class BoatCheckoutService
         $booking_product_detail->variations         = $data['ticket']['prices'] ?? null;
         $booking_product_detail->save();
 
-        return [
-            'total_price' => $grand_total,
-        ];
+        return $booking_product_detail;
     }
 }
