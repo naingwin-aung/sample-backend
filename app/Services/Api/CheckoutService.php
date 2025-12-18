@@ -32,13 +32,22 @@ class CheckoutService
         $booking->request_payload   = $data;
         $booking->save();
 
+        $each_booking_total_prices = [];
         foreach ($this->products as $product) {
             if ($product['product_type'] === ProductTypeEnum::BOAT->value) {
-                (new BoatCheckoutService($booking))->create($product);
+                $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
             } else {
                 throw new Exception('Unsupported product type: ' . $product['product_type']);
             }
         }
+
+        $total_price = collect($each_booking_total_prices)->reduce(function ($carry, $item) {
+            return $carry + $item['total_price'];
+        }, 0);
+
+        $booking->sub_total   = $total_price;
+        $booking->grand_total = $total_price;
+        $booking->update();
     }
 
     private function _validateData(array $data)

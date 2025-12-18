@@ -18,11 +18,23 @@ class BoatCheckoutService
 
     public function create(array $data)
     {
+        $sub_total = collect($data['ticket']['prices'])->reduce(function ($carry, $item) {
+            return $carry + ($item['selling_price'] * $item['quantity']);
+        }, 0);
+
+        $total_quantity = collect($data['ticket']['prices'])->reduce(function ($carry, $item) {
+            return $carry + $item['quantity'];
+        }, 0);
+
+        $grand_total = $sub_total; // No additional fees for now
+
         $booking_item                   = new BookingItem();
         $booking_item->booking_id       = $this->booking->id;
         $booking_item->product_type     = ProductTypeEnum::BOAT->value;
         $booking_item->productable_id   = $data['ticket']['product_id'];
         $booking_item->productable_type = Product::class;
+        $booking_item->sub_total        = $sub_total;
+        $booking_item->grand_total      = $grand_total;
         $booking_item->payment_status   = PaymentStatusEnum::PENDING->value;
         $booking_item->booking_status   = BookingStatusEnum::PENDING->value;
         $booking_item->save();
@@ -38,6 +50,9 @@ class BoatCheckoutService
         $booking_product->name             = $data['ticket']['product']['name'];
         $booking_product->ticket_name      = $data['ticket']['name'];
         $booking_product->date             = $data['date'];
+        $booking_product->total_quantity   = $total_quantity;
+        $booking_product->sub_total        = $sub_total;
+        $booking_product->grand_total      = $grand_total;
         $booking_product->payment_status   = PaymentStatusEnum::PENDING->value;
         $booking_product->booking_status   = BookingStatusEnum::PENDING->value;
         $booking_product->save();
@@ -51,5 +66,9 @@ class BoatCheckoutService
         $booking_product_detail->schedule_time      = $data['schedule_time'] ?? null;
         $booking_product_detail->variations         = $data['ticket']['prices'] ?? null;
         $booking_product_detail->save();
+
+        return [
+            'total_price' => $grand_total,
+        ];
     }
 }
