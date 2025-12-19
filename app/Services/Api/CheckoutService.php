@@ -66,7 +66,7 @@ class CheckoutService
         $quantitiesById = collect($data['quantities'])->keyBy('id');
 
         $ticket = ProductTicket::with([
-            'product',
+            'product.images',
             'option',
             'prices' => function ($query) use ($quantitiesById) {
                 $query->whereIn('id', $quantitiesById->keys());
