@@ -18,22 +18,39 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-        $request->validate([
-            'products'                         => 'required|array',
-            'products.*.product_type'          => 'required|string', // boat
-            'products.*.product_id'            => 'required_if:products.*.type,boat|integer',
-            'products.*.option_id'             => 'required_if:products.*.type,boat|integer',
-            'products.*.zone_id'               => 'required_if:products.*.type,boat|integer',
-            'products.*.ticket_id'             => 'required_if:products.*.type,boat|integer',
-            'products.*.schedule_time_id'      => 'required_if:products.*.type,boat|integer',
-            'products.*.date'                  => 'required_if:products.*.type,boat|date',
-            'products.*.quantities.*'          => 'required_if:products.*.type,boat|array',
-            'products.*.quantities.*.id'       => 'required_if:products.*.type,boat|integer',
-            'products.*.quantities.*.quantity' => 'required_if:products.*.type,boat|integer|min:1',
-        ]);
+        $rules = [
+            'products' => 'required|array',
+        ];
+
+        $messages = [
+            'products.required' => 'You must add at least one product.',
+        ];
+
+        if ($request->has('products')) {
+            foreach ($request->input('products') as $key => $product) {
+                $index                               = $key + 1;
+                $rules["products.$key.product_type"] = 'required|string';
+                $condition                           = "required_if:products.$key.product_type,boat";
+
+                $rules["products.$key.product_id"]            = "$condition|integer";
+                $rules["products.$key.option_id"]             = "$condition|integer";
+                $rules["products.$key.zone_id"]               = "$condition|integer";
+                $rules["products.$key.ticket_id"]             = "$condition|integer";
+                $rules["products.$key.schedule_time_id"]      = "$condition|integer";
+                $rules["products.$key.date"]                  = "$condition|date";
+                $rules["products.$key.quantities"]            = "$condition|array";
+                $rules["products.$key.quantities.*.id"]       = "$condition|integer";
+                $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";
+
+                // Custom Messages
+                $messages["products.$key.product_type.required"] = "Product #$index: Please check product type.";
+            }
+        }
+
+        $validatedData = $request->validate($rules, $messages);
 
         try {
-            $products        = $this->service->processCheckout($request->all());
+            $products        = $this->service->processCheckout($validatedData);
             $data_collection = CheckoutResource::collection($products)->toArray($request);
 
             $total_price = collect($data_collection)->reduce(function ($carry, $item) {
@@ -51,23 +68,32 @@ class CheckoutController extends Controller
 
     public function confirm(Request $request)
     {
-        $request->validate([
-            'products'                         => 'required|array',
-            'products.*.product_type'          => 'required|string', // boat
-            'products.*.product_id'            => 'required_if:products.*.type,boat|integer',
-            'products.*.option_id'             => 'required_if:products.*.type,boat|integer',
-            'products.*.zone_id'               => 'required_if:products.*.type,boat|integer',
-            'products.*.ticket_id'             => 'required_if:products.*.type,boat|integer',
-            'products.*.schedule_time_id'      => 'required_if:products.*.type,boat|integer',
-            'products.*.date'                  => 'required_if:products.*.type,boat|date',
-            'products.*.quantities.*'          => 'required_if:products.*.type,boat|array',
-            'products.*.quantities.*.id'       => 'required_if:products.*.type,boat|integer',
-            'products.*.quantities.*.quantity' => 'required_if:products.*.type,boat|integer|min:1',
-        ]);
+        $rules = [
+            'products' => 'required|array',
+        ];
+
+        if ($request->has('products')) {
+            foreach ($request->input('products') as $key => $product) {
+                $rules["products.$key.product_type"]          = 'required|string';
+                $condition                                    = "required_if:products.$key.product_type,boat";
+                
+                $rules["products.$key.product_id"]            = "$condition|integer";
+                $rules["products.$key.option_id"]             = "$condition|integer";
+                $rules["products.$key.zone_id"]               = "$condition|integer";
+                $rules["products.$key.ticket_id"]             = "$condition|integer";
+                $rules["products.$key.schedule_time_id"]      = "$condition|integer";
+                $rules["products.$key.date"]                  = "$condition|date";
+                $rules["products.$key.quantities"]            = "$condition|array";
+                $rules["products.$key.quantities.*.id"]       = "$condition|integer";
+                $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";
+            }
+        }
+
+        $validatedData = $request->validate($rules);
 
         DB::beginTransaction();
         try {
-            $this->service->confirmCheckout($request->all());
+            $this->service->confirmCheckout($validatedData);
 
             DB::commit();
             return success([], 'Checkout confirmed successfully.');
