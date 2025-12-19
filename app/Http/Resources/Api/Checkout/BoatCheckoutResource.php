@@ -16,11 +16,12 @@ class BoatCheckoutResource extends JsonResource
     {
         return [
             'product'       => [
-                'id'     => $this['ticket']['product']->id ?? null,
-                'name'   => $this['ticket']['product']->name ?? null,
-                'slug'   => $this['ticket']['product']->slug ?? null,
+                'id'    => $this['ticket']['product']->id ?? null,
+                'name'  => $this['ticket']['product']->name ?? null,
+                'slug'  => $this['ticket']['product']->slug ?? null,
                 'image' => $this['ticket']['product']->images->first()->url ?? null,
             ],
+            'option_id'     => $this['ticket']['option']['id'] ?? null,
             'boat'          => [
                 'id'   => $this['zone']->boat->id ?? null,
                 'name' => $this['zone']->boat->name ?? null,

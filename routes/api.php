@@ -18,10 +18,10 @@ Route::get('/products/{slug}/options/{optionId}', [ProductOptionController::clas
 Route::get('/shopping-carts', [ShoppingCartController::class, 'index']);
 Route::post('/shopping-carts', [ShoppingCartController::class, 'create']); // Create a new shopping cart
 
-Route::post('checkout', [CheckoutController::class, 'index']);
-Route::post('checkout/confirm', [CheckoutController::class, 'confirm']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::post('checkout', [CheckoutController::class, 'index']);
+    Route::post('checkout/confirm', [CheckoutController::class, 'confirm']);
 });
