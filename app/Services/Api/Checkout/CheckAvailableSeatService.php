@@ -16,6 +16,7 @@ class CheckAvailableSeatService
             ->where('zone_id', $product['zone']['id'])
             ->where('ticket_id', $product['ticket']['id'])
             ->where('schedule_time_id', $product['schedule_time']['id'])
+            ->where('date', $product['date'])
             ->where('payment_status', PaymentStatusEnum::PAID->value)
             ->sum('total_quantity');
 
