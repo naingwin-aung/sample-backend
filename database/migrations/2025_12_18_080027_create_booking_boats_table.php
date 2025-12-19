@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('booking_item_id')->nullable()->constrained('booking_items')->nullOnDelete();
             $table->foreignId('product_id')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('option_id')->nullable()->constrained('product_options')->nullOnDelete();
+            $table->foreignId('boat_id')->nullable()->constrained('boats')->nullOnDelete();
             $table->foreignId('zone_id')->nullable()->constrained('boat_zones')->nullOnDelete();
             $table->foreignId('ticket_id')->nullable()->constrained('product_tickets')->nullOnDelete();
             $table->foreignId('schedule_time_id')->nullable()->constrained('product_schedule_times')->nullOnDelete();

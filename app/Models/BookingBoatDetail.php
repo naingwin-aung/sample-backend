@@ -12,6 +12,7 @@ class BookingBoatDetail extends Model
         'booking_boat_id',
         'product',
         'option',
+        'boat',
         'zone',
         'ticket',
         'schedule_time',
@@ -20,6 +21,7 @@ class BookingBoatDetail extends Model
 
     protected $casts = [
         'product'       => 'json',
+        'boat'          => 'json',
         'option'        => 'json',
         'zone'          => 'json',
         'ticket'        => 'json',

@@ -59,6 +59,7 @@ class BoatCheckoutService
         $booking_boat->booking_item_id  = $booking_item->id;
         $booking_boat->product_id       = $data['ticket']['product_id'];
         $booking_boat->option_id        = $data['ticket']['option']['id'];
+        $booking_boat->boat_id          = $data['zone']['boat']['id'];
         $booking_boat->zone_id          = $data['zone']['id'];
         $booking_boat->ticket_id        = $data['ticket']['id'];
         $booking_boat->schedule_time_id = $data['schedule_time']['id'];
@@ -81,6 +82,7 @@ class BoatCheckoutService
         $booking_boat_detail->booking_boat_id = $booking_boat->id;
         $booking_boat_detail->product         = $data['ticket']['product'];
         $booking_boat_detail->option          = $data['ticket']['option'] ?? null;
+        $booking_boat_detail->boat            = $data['zone']['boat'] ?? null;
         $booking_boat_detail->zone            = $data['zone'] ?? null;
         $booking_boat_detail->ticket          = $data['ticket'] ?? null;
         $booking_boat_detail->schedule_time   = $data['schedule_time'] ?? null;

@@ -13,6 +13,7 @@ class BookingBoat extends Model
         'booking_item_id',
         'product_id',
         'option_id',
+        'boat_id',
         'zone_id',
         'ticket_id',
         'schedule_time_id',

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('booking_boat_id')->nullable()->constrained('booking_boats')->nullOnDelete();
             $table->json('product')->nullable();
             $table->json('option')->nullable();
+            $table->json('boat')->nullable();
             $table->json('zone')->nullable();
             $table->json('ticket')->nullable();
             $table->json('schedule_time')->nullable();
