@@ -1,9 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\PierController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\ShoppingCartController;
 use App\Http\Controllers\Api\ProductOptionController;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -13,6 +14,9 @@ Route::get('/piers', [PierController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{slug}', [ProductController::class, 'show']);
 Route::get('/products/{slug}/options/{optionId}', [ProductOptionController::class, 'index']);
+
+Route::get('/shopping-carts', [ShoppingCartController::class, 'index']);
+Route::post('/shopping-carts', [ShoppingCartController::class, 'create']); // Create a new shopping cart
 
 Route::post('checkout', [CheckoutController::class, 'index']);
 Route::post('checkout/confirm', [CheckoutController::class, 'confirm']);
