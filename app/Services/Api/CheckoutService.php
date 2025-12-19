@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api;
 
+use App\Services\Api\Checkout\CheckAvailableSeatService;
 use Exception;
 use App\Models\Booking;
 use App\Models\BoatZone;
@@ -35,6 +36,12 @@ class CheckoutService
         $each_booking_total_prices = [];
         foreach ($this->products as $product) {
             if ($product['product_type'] === ProductTypeEnum::BOAT->value) {
+                $check_availability = (new CheckAvailableSeatService())->check($product, $product['ticket']->prices->sum('quantity'));
+
+                if(!$check_availability) {
+                    throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected.');
+                }
+
                 $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
             } else {
                 throw new Exception('Unsupported product type: ' . $product['product_type']);
