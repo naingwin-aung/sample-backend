@@ -22,9 +22,7 @@ class BoatCheckoutService
             return $carry + ($item['selling_price'] * $item['quantity']);
         }, 0);
 
-        $total_quantity = collect($data['ticket']['prices'])->reduce(function ($carry, $item) {
-            return $carry + $item['quantity'];
-        }, 0);
+        $total_quantity = collect($data['ticket']['prices'])->sum('quantity');
 
         $grand_total  = $sub_total; // No additional fees for now
         $booking_item = $this->_saveBookingItem($data, $sub_total, $grand_total);
