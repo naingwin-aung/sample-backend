@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api;
 
+use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class ProductService
             });
         }
 
-        if(isset($request->except_ids) && is_array($request->except_ids)) {
+        if (isset($request->except_ids) && is_array($request->except_ids)) {
             $query = $query->whereNotIn('id', $request->except_ids);
         }
 
@@ -33,7 +34,8 @@ class ProductService
             'images',
             'piers',
             'options' => function ($query) {
-                $query->withMin('ticketPrices', 'net_price');
+                $query->withMin('ticketPrices', 'net_price')
+                    ->where('end_date', '>=', Carbon::now()->startOfDay());
             },
             'options.boat.images',
         ])

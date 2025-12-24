@@ -37,6 +37,7 @@
             "Tests\\": "tests/"
         },
         "files": [
+            "Helpers/helper.php",
             "Helpers/response.php"
         ]
     },

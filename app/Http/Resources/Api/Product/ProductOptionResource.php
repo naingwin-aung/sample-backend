@@ -18,14 +18,10 @@ class ProductOptionResource extends JsonResource
             'id'            => $this->id,
             'start_date'    => $this->start_date,
             'end_date'      => $this->end_date,
-            'closing_type'  => $this->closing_type,
-            'closing_dates' => $this->closing_dates,
-            'closing_days'  => $this->closing_days,
             'min_price'     => $this->ticket_prices_min_net_price * 1,
             'boat'          => [
                 'id'          => $this->boat->id,
                 'name'        => $this->boat->name,
-                'capacity'    => $this->boat->capacity,
                 'description' => fake()->paragraphs(3, true),
                 'images'      => ProductImageResource::collection($this->boat->images),
             ]
