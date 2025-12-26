@@ -10,6 +10,7 @@ class Boat extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'boat_type_id',
         'capacity',
         'seat_type',

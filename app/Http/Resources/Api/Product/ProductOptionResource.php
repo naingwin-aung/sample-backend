@@ -22,7 +22,7 @@ class ProductOptionResource extends JsonResource
             'boat'          => [
                 'id'          => $this->boat->id,
                 'name'        => $this->boat->name,
-                'description' => fake()->paragraphs(3, true),
+                'description' => $this->boat->description,
                 'images'      => ProductImageResource::collection($this->boat->images),
             ]
         ];

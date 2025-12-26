@@ -45,4 +45,18 @@ class ProductService
 
         return $product;
     }
+
+    public function relatedProducts($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $relatedProducts = Product::with(['images', 'piers'])
+            ->withMin('ticketPrices', 'net_price')
+            ->where('id', '!=', $product->id)
+            ->inRandomOrder()
+            ->limit(8)
+            ->get();
+
+        return $relatedProducts;
+    }
 }

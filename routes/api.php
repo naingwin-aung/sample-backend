@@ -13,6 +13,8 @@ Route::post('oauth/{provider}/callback', [AuthController::class, 'handleCallback
 Route::get('/piers', [PierController::class, 'index']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{slug}', [ProductController::class, 'show']);
+Route::get('/products/{id}/related', [ProductController::class, 'related']);
+
 Route::get('/products/{slug}/options/{optionId}', [ProductOptionController::class, 'index']);
 
 Route::get('/shopping-carts', [ShoppingCartController::class, 'index']);

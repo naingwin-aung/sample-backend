@@ -38,6 +38,7 @@ class BoatService
 
         $boat = Boat::create([
             'name'         => $request->name,
+            'description'  => $request->description,
             'boat_type_id' => isset($request->boat_type['id']) ? $request->boat_type['id'] : null,
             'capacity'     => $request->capacity,
             'seat_type'    => $request->seat_type ?? 'zone',
@@ -87,6 +88,7 @@ class BoatService
         $boat = $this->getById($id);
         $boat->update([
             'name'         => $request->name,
+            'description'  => $request->description,
             'boat_type_id' => isset($request->boat_type['id']) ? $request->boat_type['id'] : null,
             'capacity'     => $request->capacity,
             'seat_type'    => $request->seat_type ?? 'zone',

@@ -52,4 +52,17 @@ class ProductController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function related($id)
+    {
+        try {
+            $products = $this->service->relatedProducts($id);
+
+            return success([
+                'data' => ProductListingResource::collection($products),
+            ], 'Related products retrieved successfully.');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }

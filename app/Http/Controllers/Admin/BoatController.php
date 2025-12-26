@@ -42,6 +42,7 @@ class BoatController extends Controller
     {
         $request->validate([
             'name'             => 'required|string|max:255',
+            'description'      => 'required|string',
             'boat_type'        => 'required',
             'boat_type.id'     => 'required|integer',
             'capacity'         => 'required|integer',
@@ -73,6 +74,7 @@ class BoatController extends Controller
     {
         $request->validate([
             'name'             => 'required|string|max:255',
+            'description'      => 'required|string',
             'boat_type'        => 'required',
             'boat_type.id'     => 'required|integer',
             'capacity'         => 'required|integer',
