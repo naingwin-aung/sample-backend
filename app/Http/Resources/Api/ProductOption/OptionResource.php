@@ -16,15 +16,16 @@ class OptionResource extends JsonResource
     public function toArray(Request $request) : array
     {
         $result = [
-            'id'             => $this->id,
-            'product_id'     => $this->product_id,
-            'start_date'     => Carbon::parse($this->start_date)->isPast()
+            'id'                 => $this->id,
+            'product_id'         => $this->product_id,
+            'start_date'         => Carbon::parse($this->start_date)->isPast()
                 ? now()->format('Y-m-d')
                 : $this->start_date,
-            'end_date'       => $this->end_date,
-            'zones'          => $this->boat->zones,
-            'schedule_times' => ProductOptionScheduleTimeResource::collection($this->whenLoaded('scheduleTimes')),
-            'tickets'        => OptionTicketResource::collection($this->whenLoaded('tickets')),
+            'end_date'           => $this->end_date,
+            'zones'              => $this->boat->zones,
+            'schedule_times'     => ProductOptionScheduleTimeResource::collection($this->whenLoaded('scheduleTimes')),
+            'tickets'            => OptionTicketResource::collection($this->whenLoaded('tickets')),
+            'additional_options' => AdditionalOptionResource::collection($this->whenLoaded('productAdditionalOptions')),
         ];
 
         $result['closing_dates'] = [];
