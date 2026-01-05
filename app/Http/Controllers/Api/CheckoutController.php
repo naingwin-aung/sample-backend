@@ -41,6 +41,10 @@ class CheckoutController extends Controller
                 $rules["products.$key.quantities"]            = "$condition|array";
                 $rules["products.$key.quantities.*.id"]       = "$condition|integer";
                 $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";
+                // additional options can be optional
+                $rules["products.$key.additional_options"] = "nullable|array";
+                $rules["products.$key.additional_options.*.id"] = "integer";
+                $rules["products.$key.additional_options.*.quantity"] = "integer|min:1";
 
                 // Custom Messages
                 $messages["products.$key.product_type.required"] = "Product #$index: Please check product type.";

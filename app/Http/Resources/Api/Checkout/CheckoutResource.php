@@ -25,7 +25,9 @@ class CheckoutResource extends JsonResource
         }
 
         $variations = collect($result['product']['variations'] ?? []);
-        $result['total_price'] = $variations->reduce(fn ($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
+        $variations_total = $variations->reduce(fn ($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
+
+        $result['total_price'] = $variations_total;
 
         return $result;
     }

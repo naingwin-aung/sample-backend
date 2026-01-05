@@ -17,15 +17,17 @@ class BookingBoatDetail extends Model
         'ticket',
         'schedule_time',
         'variations',
+        'additional_options',
     ];
 
     protected $casts = [
-        'product'       => 'json',
-        'boat'          => 'json',
-        'option'        => 'json',
-        'zone'          => 'json',
-        'ticket'        => 'json',
-        'schedule_time' => 'json',
-        'variations'    => 'json',
+        'product'            => 'json',
+        'boat'               => 'json',
+        'option'             => 'json',
+        'zone'               => 'json',
+        'ticket'             => 'json',
+        'schedule_time'      => 'json',
+        'variations'         => 'json',
+        'additional_options' => 'json',
     ];
 }

@@ -44,8 +44,16 @@ class BoatCheckoutResource extends JsonResource
                 return [
                     'id'       => $price->id ?? null,
                     'name'     => $price->name ?? null,
-                    'price'    => $price->selling_price ?? null,
+                    'price'    => $price->net_price ?? null,
                     'quantity' => $price->quantity ?? 0,
+                ];
+            })->toArray(),
+            'additional_options' => $this['ticket']->option->productAdditionalOptions->map(function ($additionalOption) {
+                return [
+                    'id'       => $additionalOption->id ?? null,
+                    'name'     => $additionalOption->additionalOption->name ?? null,
+                    'price'    => $additionalOption->net_price ?? null,
+                    'quantity' => $additionalOption->quantity ?? 0,
                 ];
             })->toArray(),
         ];

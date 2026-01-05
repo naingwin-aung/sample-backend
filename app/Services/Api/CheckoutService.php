@@ -73,10 +73,19 @@ class CheckoutService
     {
         $quantitiesById = collect($data['quantities'])->keyBy('id');
 
-        $ticket = ProductTicket::with([
+        if (isset($data['additional_options'])) {
+            $additionalOptionsById = collect($data['additional_options'])->keyBy('id');
+        } else {
+            $additionalOptionsById = collect();
+        }
+
+        $query = ProductTicket::with([
             'product.images',
-            'option',
-            'prices' => function ($query) use ($quantitiesById) {
+            'option.productAdditionalOptions' => function ($query) use ($additionalOptionsById) {
+                $query->whereIn('id', $additionalOptionsById->keys());
+            },
+            'option.productAdditionalOptions.additionalOption',
+            'prices'                          => function ($query) use ($quantitiesById) {
                 $query->whereIn('id', $quantitiesById->keys());
             },
         ])
@@ -85,11 +94,25 @@ class CheckoutService
             })
             ->where('id', $data['ticket_id'])
             ->where('product_id', $data['product_id'])
-            ->where('option_id', $data['option_id'])
+            ->where('option_id', $data['option_id']);
+
+        if (isset($data['additional_options'])) {
+            $query = $query->whereHas('option', function ($query) use ($additionalOptionsById) {
+                $query->whereHas('productAdditionalOptions', function ($subQuery) use ($additionalOptionsById) {
+                    $subQuery->whereIn('id', $additionalOptionsById->keys());
+                });
+            });
+        }
+
+        $ticket = $query
             ->firstOrFail();
 
         $ticket->prices->each(function ($price) use ($quantitiesById) {
             $price->quantity = $quantitiesById->get($price->id)['quantity'] ?? 0;
+        });
+
+        $ticket->option->productAdditionalOptions->each(function ($additionalOption) use ($additionalOptionsById) {
+            $additionalOption->quantity = $additionalOptionsById->get($additionalOption->id)['quantity'] ?? 0;
         });
 
         $zone = BoatZone::with('boat')
