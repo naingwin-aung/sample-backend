@@ -20,14 +20,19 @@ class CheckoutResource extends JsonResource
             'product_type' => $this['product_type'],
         ];
 
+        $additional_total = 0;
+
         if ($this['product_type'] === ProductTypeEnum::BOAT->value) {
             $result['product'] = BoatCheckoutResource::make($this->resource)->toArray($request);
+
+            $additional_options = collect($result['product']['additional_options'] ?? []);
+            $additional_total = $additional_options->reduce(fn ($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
         }
 
         $variations = collect($result['product']['variations'] ?? []);
         $variations_total = $variations->reduce(fn ($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
 
-        $result['total_price'] = $variations_total;
+        $result['total_price'] = $variations_total + $additional_total;
 
         return $result;
     }
