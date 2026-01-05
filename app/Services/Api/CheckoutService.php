@@ -73,7 +73,7 @@ class CheckoutService
     {
         $quantitiesById = collect($data['quantities'])->keyBy('id');
 
-        if (isset($data['additional_options'])) {
+        if (isset($data['additional_options']) && count($data['additional_options']) > 0) {
             $additionalOptionsById = collect($data['additional_options'])->keyBy('id');
         } else {
             $additionalOptionsById = collect();
@@ -96,7 +96,7 @@ class CheckoutService
             ->where('product_id', $data['product_id'])
             ->where('option_id', $data['option_id']);
 
-        if (isset($data['additional_options'])) {
+        if (isset($data['additional_options']) && count($data['additional_options']) > 0) {
             $query = $query->whereHas('option', function ($query) use ($additionalOptionsById) {
                 $query->whereHas('productAdditionalOptions', function ($subQuery) use ($additionalOptionsById) {
                     $subQuery->whereIn('id', $additionalOptionsById->keys());
