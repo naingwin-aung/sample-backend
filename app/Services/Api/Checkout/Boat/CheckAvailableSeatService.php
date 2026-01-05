@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Api\Checkout;
+namespace App\Services\Api\Checkout\Boat;
 
 use App\Enums\PaymentStatusEnum;
 use App\Models\BookingBoat;

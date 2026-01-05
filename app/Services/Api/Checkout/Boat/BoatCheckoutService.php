@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Api\Checkout;
+namespace App\Services\Api\Checkout\Boat;
 
 use App\Models\Booking;
 use App\Models\Product;
