@@ -42,8 +42,8 @@ class CheckoutController extends Controller
                 $rules["products.$key.quantities.*.id"]       = "$condition|integer";
                 $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";
                 // additional options can be optional
-                $rules["products.$key.additional_options"] = "nullable|array";
-                $rules["products.$key.additional_options.*.id"] = "integer";
+                $rules["products.$key.additional_options"]            = "nullable|array";
+                $rules["products.$key.additional_options.*.id"]       = "integer";
                 $rules["products.$key.additional_options.*.quantity"] = "integer|min:1";
 
                 // Custom Messages
@@ -78,9 +78,9 @@ class CheckoutController extends Controller
 
         if ($request->has('products')) {
             foreach ($request->input('products') as $key => $product) {
-                $rules["products.$key.product_type"]          = 'required|string';
-                $condition                                    = "required_if:products.$key.product_type,boat";
-                
+                $rules["products.$key.product_type"] = 'required|string';
+                $condition                           = "required_if:products.$key.product_type,boat";
+
                 $rules["products.$key.product_id"]            = "$condition|integer";
                 $rules["products.$key.option_id"]             = "$condition|integer";
                 $rules["products.$key.zone_id"]               = "$condition|integer";
@@ -90,6 +90,11 @@ class CheckoutController extends Controller
                 $rules["products.$key.quantities"]            = "$condition|array";
                 $rules["products.$key.quantities.*.id"]       = "$condition|integer";
                 $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";
+
+                // additional options can be optional
+                $rules["products.$key.additional_options"]            = "nullable|array";
+                $rules["products.$key.additional_options.*.id"]       = "integer";
+                $rules["products.$key.additional_options.*.quantity"] = "integer|min:1";
             }
         }
 
@@ -97,10 +102,17 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            $this->service->confirmCheckout($validatedData);
+            $booking = $this->service->confirmCheckout($validatedData);
 
             DB::commit();
-            return success([], 'Checkout confirmed successfully.');
+            return success([
+                'data' => [
+                    'booking_id'        => $booking->id,
+                    'booking_number'    => $booking->booking_number,
+                    'payment_reference' => $booking->payment_reference,
+                    'grand_total'       => $booking->grand_total,
+                ]
+            ], 'Checkout confirmed successfully.');
         } catch (Exception $e) {
             DB::rollBack();
             return error($e->getMessage());

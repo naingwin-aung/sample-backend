@@ -56,6 +56,8 @@ class CheckoutService
         $booking->sub_total   = $total_price;
         $booking->grand_total = $total_price;
         $booking->update();
+
+        return $booking;
     }
 
     private function _validateData(array $data)

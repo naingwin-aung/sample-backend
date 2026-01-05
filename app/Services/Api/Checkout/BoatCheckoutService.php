@@ -18,9 +18,17 @@ class BoatCheckoutService
 
     public function create(array $data)
     {
-        $sub_total = collect($data['ticket']['prices'])->reduce(function ($carry, $item) {
-            return $carry + ($item['selling_price'] * $item['quantity']);
+        $sub_total = 0;
+
+        $ticket_total = collect($data['ticket']['prices'])->reduce(function ($carry, $item) {
+            return $carry + ($item['net_price'] * $item['quantity']);
         }, 0);
+
+        $additional_total = collect($data['ticket']['option']['productAdditionalOptions'])->reduce(function ($carry, $item) {
+            return $carry + ($item['net_price'] * $item['quantity']);
+        }, 0);
+
+        $sub_total = $ticket_total + $additional_total;
 
         $total_quantity = collect($data['ticket']['prices'])->sum('quantity');
 
@@ -76,15 +84,16 @@ class BoatCheckoutService
 
     private function _saveBookingBoatDetail(array $data, BookingBoat $booking_boat)
     {
-        $booking_boat_detail                  = new BookingBoatDetail();
-        $booking_boat_detail->booking_boat_id = $booking_boat->id;
-        $booking_boat_detail->product         = $data['ticket']['product'];
-        $booking_boat_detail->option          = $data['ticket']['option'] ?? null;
-        $booking_boat_detail->boat            = $data['zone']['boat'] ?? null;
-        $booking_boat_detail->zone            = $data['zone'] ?? null;
-        $booking_boat_detail->ticket          = $data['ticket'] ?? null;
-        $booking_boat_detail->schedule_time   = $data['schedule_time'] ?? null;
-        $booking_boat_detail->variations      = $data['ticket']['prices'] ?? null;
+        $booking_boat_detail                     = new BookingBoatDetail();
+        $booking_boat_detail->booking_boat_id    = $booking_boat->id;
+        $booking_boat_detail->product            = $data['ticket']['product'];
+        $booking_boat_detail->option             = $data['ticket']['option'] ?? null;
+        $booking_boat_detail->boat               = $data['zone']['boat'] ?? null;
+        $booking_boat_detail->zone               = $data['zone'] ?? null;
+        $booking_boat_detail->ticket             = $data['ticket'] ?? null;
+        $booking_boat_detail->schedule_time      = $data['schedule_time'] ?? null;
+        $booking_boat_detail->variations         = $data['ticket']['prices'] ?? null;
+        $booking_boat_detail->additional_options = $data['ticket']['option']['productAdditionalOptions'] ?? null;
         $booking_boat_detail->save();
 
         return $booking_boat_detail;
