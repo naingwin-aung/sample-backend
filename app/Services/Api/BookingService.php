@@ -9,7 +9,7 @@ class BookingService
     public function detail($booking_number)
     {
         $booking = Booking::with([
-            'items.boatItem.bookingItemDetail'
+            'items.boatItem.boatItemDetail'
         ])
             ->where('booking_number', $booking_number)
             ->where('user_id', Auth::user()->id)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Services\Api\BookingService;
+use App\Http\Resources\Api\Booking\BookingDetailResource;
 
 class BookingController extends Controller
 {
@@ -19,7 +20,8 @@ class BookingController extends Controller
             $booking = $this->service->detail($booking_number);
 
             return success([
-                'data' => $booking,
+                // 'data' => $booking,
+                'data' => BookingDetailResource::make($booking),
             ], 'Booking detail retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
