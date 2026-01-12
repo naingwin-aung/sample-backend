@@ -111,10 +111,10 @@ class ProductService
                 ->get();
 
             if (count($files) > 0) {
-                foreach ($files as $file) {
-                    $oldImage = $file->getRawOriginal('url') ?? '';
-                    Storage::delete($oldImage);
-                }
+                // foreach ($files as $file) {
+                //     $oldImage = $file->getRawOriginal('url') ?? '';
+                //     Storage::delete($oldImage);
+                // }
 
                 $product->images()->whereIn('id', $request->old_images)->delete();
             }

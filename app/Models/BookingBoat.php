@@ -31,4 +31,9 @@ class BookingBoat extends Model
         'sub_total'      => 'float',
         'grand_total'    => 'float',
     ];
+
+    public function bookingItemDetail()
+    {
+        return $this->hasOne(BookingBoatDetail::class, 'booking_boat_id');
+    }
 }

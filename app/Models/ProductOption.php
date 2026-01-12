@@ -50,6 +50,6 @@ class ProductOption extends Model
 
     public function productAdditionalOptions()
     {
-        return $this->hasMany(ProductAdditionalOption::class, 'option_id');
+        return $this->hasMany(ProductAdditionalOption::class, 'option_id')->whereNotNull('additional_option_id');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BookingItem extends Model
 {
     protected $table = 'booking_items';
-    
+
     protected $fillable = [
         'booking_id',
         'product_type',
@@ -23,4 +23,9 @@ class BookingItem extends Model
         'sub_total'   => 'float',
         'grand_total' => 'float',
     ];
+
+    public function boatItem()
+    {
+        return $this->hasOne(BookingBoat::class, 'booking_item_id');
+    }
 }

@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PierController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\ShoppingCartController;
@@ -26,4 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('checkout', [CheckoutController::class, 'index']);
     Route::post('checkout/confirm', [CheckoutController::class, 'confirm']);
+
+    // Booking
+    Route::get('/bookings/{booking_number}', [BookingController::class, 'show']);
 });

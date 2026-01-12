@@ -24,4 +24,9 @@ class Booking extends Model
         'sub_total'       => 'float',
         'grand_total'     => 'float',
     ];
+
+    public function items()
+    {
+        return $this->hasMany(BookingItem::class, 'booking_id');
+    }
 }
