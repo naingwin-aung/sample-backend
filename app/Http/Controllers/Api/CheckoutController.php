@@ -110,10 +110,6 @@ class CheckoutController extends Controller
             // sending confirmation email temporarily
             // Mail::to($booking->user->email)->send(new BookingConfirmEmail());
 
-            TestLog::create([
-                'booking_number' => $booking->booking_number,
-            ]);
-
             DB::commit();
             return success([
                 'data' => [
