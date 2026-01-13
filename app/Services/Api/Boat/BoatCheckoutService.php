@@ -16,7 +16,7 @@ class BoatCheckoutService
     {
     }
 
-    public function create(array $data, int $available_seats)
+    public function create(array $data)
     {
         $sub_total = 0;
 

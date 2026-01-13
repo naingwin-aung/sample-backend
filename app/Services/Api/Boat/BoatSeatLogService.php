@@ -1,9 +1,23 @@
 <?php
+namespace App\Services\Api\Boat;
 
 use App\Models\BoatSeatLog;
 
 class BoatSeatLogService
 {
+    public function check(array $criteria)
+    {
+        return BoatSeatLog::where('product_id', $criteria['product_id'])
+            ->where('option_id', $criteria['option_id'])
+            ->where('boat_id', $criteria['boat_id'])
+            ->where('zone_id', $criteria['zone_id'])
+            ->where('ticket_id', $criteria['ticket_id'])
+            ->where('schedule_time_id', $criteria['schedule_time_id'])
+            ->where('date', $criteria['date'])
+            ->orderByDesc('logged_at')
+            ->first();
+    }
+
     public function create(array $data)
     {
         BoatSeatLog::create([

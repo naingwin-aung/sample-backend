@@ -41,7 +41,7 @@ class CheckoutService
                     throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected.');
                 }
 
-                $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product, $available_seats); // must return total price
+                $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
             } else {
                 throw new Exception('Unsupported product type: ' . $product['product_type']);
             }
