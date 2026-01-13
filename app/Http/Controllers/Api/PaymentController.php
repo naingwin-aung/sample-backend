@@ -29,7 +29,7 @@ class PaymentController extends Controller
             'payment_status' => PaymentStatusEnum::PAID->value,
         ]);
 
-        $booking->items()->each(function ($item) {
+        $booking->items()->each(function ($item) use ($booking) {
             if ($item->product_type === 'boat' && $item->boatItem) {
                 $item->boatItem->update([
                     'payment_status' => PaymentStatusEnum::PAID->value,
@@ -58,7 +58,13 @@ class PaymentController extends Controller
                     throw new Exception('Error in updating boat seat log: insufficient seats.');
                 }
 
+                if (BoatSeatLog::where('booking_number', $booking->booking_number)->exists()) {
+                    // prevent duplicate log entries
+                    return;
+                }
+
                 $log = [
+                    'booking_number'   => $booking->booking_number,
                     'product_id'       => $booking_boat->product_id,
                     'option_id'        => $booking_boat->option_id,
                     'boat_id'          => $booking_boat->boat_id,
