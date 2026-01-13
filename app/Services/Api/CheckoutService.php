@@ -3,15 +3,12 @@ namespace App\Services\Api;
 
 use Exception;
 use App\Models\Booking;
-use App\Models\BoatZone;
-use App\Models\ProductTicket;
 use App\Enums\ProductTypeEnum;
 use App\Enums\PaymentStatusEnum;
-use App\Models\ProductScheduleTime;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Api\Checkout\Boat\BoatCheckoutService;
-use App\Services\Api\Checkout\Boat\CheckAvailableSeatService;
-use App\Services\Api\Checkout\Boat\ValidateBoatProductService;
+use App\Services\Api\Boat\BoatCheckoutService;
+use App\Services\Api\Boat\CheckAvailableSeatService;
+use App\Services\Api\Boat\ValidateBoatProductService;
 
 class CheckoutService
 {
@@ -38,13 +35,13 @@ class CheckoutService
         $each_booking_total_prices = [];
         foreach ($this->products as $product) {
             if ($product['product_type'] === ProductTypeEnum::BOAT->value) {
-                $check_availability = (new CheckAvailableSeatService())->check($product, $product['ticket']->prices->sum('quantity'));
+                [$available_seats, $check_availability] = (new CheckAvailableSeatService())->check($product, $product['ticket']->prices->sum('quantity'));
 
                 if (!$check_availability) {
                     throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected.');
                 }
 
-                $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
+                $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product, $available_seats); // must return total price
             } else {
                 throw new Exception('Unsupported product type: ' . $product['product_type']);
             }

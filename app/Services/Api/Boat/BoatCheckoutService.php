@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Api\Checkout\Boat;
+namespace App\Services\Api\Boat;
 
 use App\Models\Booking;
 use App\Models\Product;
@@ -16,7 +16,7 @@ class BoatCheckoutService
     {
     }
 
-    public function create(array $data)
+    public function create(array $data, int $available_seats)
     {
         $sub_total = 0;
 

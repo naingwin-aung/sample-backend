@@ -18,7 +18,7 @@ class BoatSeatLog extends Model
         'ticket_id',
         'schedule_time_id',
         'date',
-        'current_seats',
+        'allocation_seats',
         'booked_seats',
         'available_seats',
         'logged_at',

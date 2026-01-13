@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Api\Checkout\Boat;
+namespace App\Services\Api\Boat;
 
 use App\Models\BoatZone;
 use App\Models\ProductTicket;

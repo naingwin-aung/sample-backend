@@ -1,27 +1,32 @@
 <?php
-namespace App\Services\Api\Checkout\Boat;
+namespace App\Services\Api\Boat;
 
 use App\Enums\PaymentStatusEnum;
+use App\Models\BoatSeatLog;
 use App\Models\BookingBoat;
 
 class CheckAvailableSeatService
 {
-    public function check(array $product, int $requested_quantity) : bool
+    public function check(array $product, int $requested_quantity)
     {
         $allocation_seat = $product['zone']['capacity'] ?? 0;
 
-        $booked_seat = BookingBoat::where('product_id', $product['ticket']['product']['id'])
+        $boat_seat = BoatSeatLog::where('product_id', $product['ticket']['product']['id'])
             ->where('option_id', $product['ticket']['option']['id'])
             ->where('boat_id', $product['zone']['boat']['id'])
             ->where('zone_id', $product['zone']['id'])
             ->where('ticket_id', $product['ticket']['id'])
             ->where('schedule_time_id', $product['schedule_time']['id'])
             ->where('date', $product['date'])
-            ->where('payment_status', PaymentStatusEnum::PAID->value)
-            ->sum('total_quantity');
+            ->orderByDesc('logged_at')
+            ->first();
 
-        $available_seats = $allocation_seat - ($booked_seat * 1);
+        if(!$boat_seat) {
+            $available_seats = $allocation_seat;
+        } else {
+            $available_seats = $boat_seat->available_seats;
+        }
 
-        return $requested_quantity <= $available_seats;
+        return [$available_seats, $requested_quantity <= $available_seats];
     }
 }
