@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\TestLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -107,7 +108,11 @@ class CheckoutController extends Controller
             $booking = $this->service->confirmCheckout($validatedData);
 
             // sending confirmation email temporarily
-            Mail::to($booking->user->email)->send(new BookingConfirmEmail());
+            // Mail::to($booking->user->email)->send(new BookingConfirmEmail());
+
+            TestLog::create([
+                'booking_number' => $booking->booking_number,
+            ]);
 
             DB::commit();
             return success([
