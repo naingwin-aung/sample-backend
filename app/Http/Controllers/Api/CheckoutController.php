@@ -6,7 +6,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Services\Api\CheckoutService;
+use App\Mail\Boat\BookingConfirmEmail;
 use App\Http\Resources\Api\Checkout\CheckoutResource;
 
 class CheckoutController extends Controller
@@ -103,6 +105,9 @@ class CheckoutController extends Controller
         DB::beginTransaction();
         try {
             $booking = $this->service->confirmCheckout($validatedData);
+
+            // sending confirmation email temporarily
+            Mail::to($booking->user->email)->send(new BookingConfirmEmail());
 
             DB::commit();
             return success([
