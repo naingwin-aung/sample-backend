@@ -24,6 +24,7 @@ class ValidateBoatProductService
         }
 
         $query = ProductTicket::with([
+            'product.piers',
             'product.images',
             'option.productAdditionalOptions' => function ($query) use ($additionalOptionsById) {
                 $query->whereIn('id', $additionalOptionsById->keys());
