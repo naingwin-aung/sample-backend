@@ -9,10 +9,10 @@ function success(array $data = [], string $message = 'Request was successful', i
     ], $statusCode);
 }
 
-function error(string $message = 'An error occurred', int $statusCode = 500)
+function error(string $message = 'Something happened please try again later.', int $statusCode = 500)
 {
     return response()->json([
         'success' => false,
-        'message' => config('app.debug') ? $message : 'An error occurred',
+        'message' => config('app.debug') ? $message : 'Something happened please try again later.',
     ], $statusCode);
 }
