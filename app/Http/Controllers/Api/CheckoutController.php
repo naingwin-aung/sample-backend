@@ -40,7 +40,7 @@ class CheckoutController extends Controller
                 $rules["products.$key.zone_id"]               = "$condition|integer";
                 $rules["products.$key.ticket_id"]             = "$condition|integer";
                 $rules["products.$key.schedule_time_id"]      = "$condition|integer";
-                $rules["products.$key.date"]                  = "$condition|date";
+                $rules["products.$key.date"]                  = "$condition|date|after:today";
                 $rules["products.$key.quantities"]            = "$condition|array";
                 $rules["products.$key.quantities.*.id"]       = "$condition|integer";
                 $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";

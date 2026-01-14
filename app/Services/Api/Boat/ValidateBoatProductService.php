@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Api\Boat;
 
+use Exception;
 use App\Models\BoatZone;
 use App\Models\ProductTicket;
 use App\Enums\ProductTypeEnum;
@@ -14,6 +15,10 @@ class ValidateBoatProductService
 
         if (isset($data['additional_options']) && count($data['additional_options']) > 0) {
             $additionalOptionsById = collect($data['additional_options'])->keyBy('id');
+
+            if($quantitiesById->values()->sum('quantity') !== $additionalOptionsById->values()->sum('quantity')) {
+                throw new Exception('The total quantity of additional options cannot exceed the total quantity of tickets selected.');
+            }
         } else {
             $additionalOptionsById = collect();
         }
