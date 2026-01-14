@@ -38,7 +38,7 @@ class CheckoutService
                 [$available_seats, $check_availability] = (new CheckAvailableSeatService())->check($product, $product['ticket']->prices->sum('quantity'));
 
                 if (!$check_availability) {
-                    throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected.');
+                    throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected. Please select another date or reduce the number of tickets.');
                 }
 
                 $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
