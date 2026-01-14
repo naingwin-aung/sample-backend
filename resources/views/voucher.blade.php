@@ -19,7 +19,7 @@
         .layout {
             width: 90%;
             max-width: 750px;
-            margin: 25px auto;
+            margin: 18px auto;
             background-color: #fff;
             border-radius: 8px;
             overflow: hidden; 

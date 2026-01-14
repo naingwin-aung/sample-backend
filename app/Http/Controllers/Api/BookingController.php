@@ -39,10 +39,6 @@ class BookingController extends Controller
             ]);
 
             return $pdf->stream('invoice.pdf');
-
-            // return view('voucher', [
-            //     'booking' => $booking,
-            // ]);
         } catch (Exception $e) {
             return error($e->getMessage());
         }
