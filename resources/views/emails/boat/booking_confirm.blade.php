@@ -19,11 +19,11 @@
 
         .layout {
             width: 90%;
-            max-width: 750px;
+            max-width: 600px;
             margin: 18px auto;
             background-color: #fff;
             border-radius: 8px;
-            overflow: hidden; 
+            overflow: hidden;
         }
 
         table.header-layout {
@@ -32,7 +32,7 @@
             background-color: #fff;
             border-collapse: collapse;
         }
-        
+
         table.header-layout td {
             padding: 0 24px;
             vertical-align: middle;
@@ -48,7 +48,15 @@
         .p-24 {
             padding: 24px;
         }
-        
+
+        .mb-10 {
+            margin-bottom: 10px;
+        }
+
+        .mt-10 {
+            margin-top: 10px;
+        }
+
         .mb-20 {
             margin-bottom: 20px;
         }
@@ -57,8 +65,12 @@
             margin-top: 20px;
         }
 
+        .ms-25 {
+            margin-left: 25px;
+        }
+
         .header {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             color: #000;
         }
@@ -68,11 +80,15 @@
             font-weight: bold;
         }
 
+        .third-header {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
         .small-header {
-            font-size: 12px;
+            font-size: 13px;
             color: #999999;
             margin-bottom: 5px;
-            text-transform: uppercase;
         }
 
         .divider {
@@ -97,6 +113,21 @@
             width: 50%;
             float: left;
         }
+
+        .col-65 {
+            width: 65%;
+            float: left;
+        }
+
+        .col-30 {
+            width: 30%;
+            float: left;
+        }
+
+        .center-box {
+            text-align: center;
+            padding: 30px 0;
+        }
     </style>
 </head>
 
@@ -113,72 +144,80 @@
         </table>
 
         <div class="p-24">
-            <div class="header">Robinson Crousoe Sunset Cruise Tour with Dinner and Show</div>
-            <div class="divider"></div>
-
+            <div class="header">Hey naing win, your booking has been confirmed!</div>
+            <br>
             <div>
-                <div class="small-header">Package</div>
-                <div class="secondary-header">Join-in Sunset Cruise Tour</div>
+                Your booking for Robinson Crusoe Sunset Cruise Tour with Dinner and Show is confirmed.
             </div>
+            <br>
+            <div>
+                You can find your voucher in this email. Make sure to check how to redeem the voucher before you go.
+            </div>
+            <br>
             <div class="divider"></div>
 
-            <div>
-                <div class="row mb-20">
-                    <div class="col-50">
-                        <div class="small-header">Lead participant</div>
-                        <div>Naing Win</div>
-                    </div>
-                    <div class="col-50">
-                        <div class="small-header">Date</div>
-                        <div>24 Jan 2026 17:00</div>
-                    </div>
+            <div class="secondary-header mb-20">Booking Details</div>
+            <div class="row mb-10">
+                <div class="col-65">
+                    <div class="small-header">Booking No: ABC123456789</div>
                 </div>
-
-                <div class="row">
-                    <div class="col-50">
-                        <div class="small-header">Quantity</div>
-                        <div>1 x Adult</div>
-                    </div>
-                    <div class="col-50">
-                        <div class="small-header">Booking reference ID</div>
-                        <div>ABC123456789</div>
-                    </div>
+                <div class="col-30">
+                    <div class="small-header ms-25">Booked: 2026-01-12</div>
                 </div>
             </div>
-        </div>
-
-        <div class="ticket-separator">
-            <div class="circle left"></div>
-            <div class="dashed-line"></div>
-            <div class="circle right"></div>
-        </div>
-
-        <div class="center-box">
-            <div>QR Code Placeholder</div>
-            <div class="mt-20" style="font-weight: bold; letter-spacing: 1px;">VCH123456789</div>
-        </div>
-    </div>
-
-    <div class="layout">
-        <div class="p-24">
-            <div class="header">Traveler's Information</div>
-            <div class="divider"></div>
 
             <div class="row">
-                <div class="col-33">
-                    <div class="small-header">Name</div>
-                    <div>Zen</div>
+                <div class="col-65">
+                    <div class="secondary-header mb-10">Robinson Crusoe Sunset Cruise Tour with Dinner and Show</div>
+                    <div class="mb-10">
+                        Join-in Sunset Cruise Tour
+                    </div>
+                    <div class="mb-10">
+                        <div class="small-header">Date</div>
+                        24 Jan 2026
+                    </div>
+                    <div class="mb-10">
+                        <div class="small-header">Current bookings</div>
+                        Adult X 1
+                    </div>
                 </div>
-                <div class="col-33">
-                    <div class="small-header">Email</div>
-                    <div>zen@gmail.com</div>
+                <div class="col-30 ms-25">
+                    <image src="https://i.pinimg.com/1200x/a7/11/ac/a711ac064512f8677b1ff5bafe1babb5.jpg"
+                        alt="Boat Image" style="width: 132px; height: 85px; border-radius: 8px; object-fit: cover;">
                 </div>
-                <div class="col-33">
-                    <div class="small-header">Passport Number</div>
-                    <div>A12345678</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="secondary-header mb-20">Payment Details</div>
+            <div class="row mb-10">
+                <div class="col-65">
+                    <div>Subtotal</div>
                 </div>
+                <div class="col-30">
+                    <div class="ms-25">1,200 THB</div>
+                </div>
+            </div>
+
+            <div class="row mb-10">
+                <div class="col-65">
+                    <div class="third-header">Grand Total</div>
+                </div>
+                <div class="col-30">
+                    <div class="ms-25 third-header">1,200 THB</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="center-box">
+                If you have received this communication in error, please do not forward its contents; notify the sender
+                and delete it and any attachments. This message may contain information that is confidential and legally
+                privileged. Unless you are the addressee, you may not use, copy or disclose to anyone this message or any
+                information contained in it.
             </div>
         </div>
     </div>
 </body>
+
 </html>

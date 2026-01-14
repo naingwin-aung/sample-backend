@@ -72,7 +72,6 @@
             font-size: 12px;
             color: #999999;
             margin-bottom: 5px;
-            text-transform: uppercase;
         }
 
         .divider {
