@@ -14,6 +14,7 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 14px;
             line-height: 1.4;
+            color: #3a3a3a;
         }
 
         .layout {
