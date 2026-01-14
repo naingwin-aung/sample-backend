@@ -21,6 +21,7 @@ class BoatSeatLogService
     public function create(array $data)
     {
         BoatSeatLog::create([
+            'booking_number'   => $data['booking_number'],
             'product_id'       => $data['product_id'],
             'option_id'        => $data['option_id'],
             'boat_id'          => $data['boat_id'],
@@ -29,6 +30,7 @@ class BoatSeatLogService
             'schedule_time_id' => $data['schedule_time_id'],
             'date'             => $data['date'],
             'allocation_seats' => $data['allocation_seats'],
+            'current_seats'    => $data['current_seats'],
             'booked_seats'     => $data['booked_seats'],
             'available_seats'  => $data['available_seats'],
             'product'          => $data['product'],

@@ -11,6 +11,7 @@ class BoatSeatLog extends Model
     protected $collection = 'boat_seat_logs';
 
     protected $fillable = [
+        'booking_number',
         'product_id',
         'option_id',
         'boat_id',
@@ -19,6 +20,7 @@ class BoatSeatLog extends Model
         'schedule_time_id',
         'date',
         'allocation_seats',
+        'current_seats',
         'booked_seats',
         'available_seats',
         'product',

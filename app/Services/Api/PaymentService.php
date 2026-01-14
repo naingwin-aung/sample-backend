@@ -54,6 +54,7 @@ class PaymentService
                 $detail = $booking_boat->boatItemDetail;
 
                 $log = [
+                    'booking_number'   => $booking->booking_number,
                     'product_id'       => $booking_boat->product_id,
                     'option_id'        => $booking_boat->option_id,
                     'boat_id'          => $booking_boat->boat_id,
@@ -62,6 +63,7 @@ class PaymentService
                     'schedule_time_id' => $booking_boat->schedule_time_id,
                     'date'             => $booking_boat->date,
                     'allocation_seats' => $booking_boat->boatItemDetail->zone['capacity'] ?? 0,
+                    'current_seats'    => $current_seats,
                     'booked_seats'     => $booking_boat->total_quantity,
                     'available_seats'  => $current_seats - $booking_boat->total_quantity,
                     'product'          => $detail->product,
