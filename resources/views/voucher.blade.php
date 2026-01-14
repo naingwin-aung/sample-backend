@@ -20,7 +20,7 @@
     .header-layout {
         height: 60px;
         padding: 0 24px;
-        background-color: #6B3CA9;
+        background-color: #000080;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -87,6 +87,63 @@
 
     .p-24 {
         padding: 24px;
+    }
+
+    .ticket-separator {
+        position: relative;
+        height: 22px;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ticket-separator .dotted-line {
+        width: 100%;
+        background-color: #fff;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .ticket-separator .dotted-line::before {
+        content: '';
+        border-bottom: 2px dashed #ccc;
+        width: 100%;
+    }
+
+    .ticket-separator .circle {
+        width: 22px;
+        height: 16px;
+        background: #eeeeee;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+
+    .ticket-separator .circle.left {
+        left: -16px;
+    }
+
+    .ticket-separator .circle.right {
+        right: -16px;
+    }
+
+    .center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 180px;
+    }
+
+    .mt-20 {
+        margin-top: 20px;
     }
 </style>
 
@@ -158,7 +215,22 @@
 
             {{-- <div class="dot-divider"></div> --}}
         </div>
+        <div class="ticket-separator">
+            <div class="circle left"></div>
+            <div class="dotted-line"></div>
+            <div class="circle right"></div>
+        </div>
+
+        <div class="center">
+            <div>
+                QR Code Placeholder
+            </div>
+            <div class="mt-20">
+                VCH123456789
+            </div>
+        </div>
     </div>
+
 
     <div class="layout">
         <div class="p-24">
