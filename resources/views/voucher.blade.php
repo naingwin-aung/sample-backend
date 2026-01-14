@@ -150,7 +150,7 @@
         <table class="header-layout">
             <tr>
                 <td>
-                    <div class="logo">Logo</div>
+                    <div class="logo">Meetomorrow</div>
                 </td>
                 <td style="text-align: right;">
                 </td>
