@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('booking_boat_details', function (Blueprint $table) {
             $table->json('additional_options')->after('variations')->nullable();
+            $table->json('travelers')->after('additional_options')->nullable();
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration {
     {
         Schema::table('booking_boat_details', function (Blueprint $table) {
             $table->dropColumn('additional_options');
+            $table->dropColumn('travelers');
         });
     }
 };

@@ -18,6 +18,7 @@ class BookingBoatDetail extends Model
         'schedule_time',
         'variations',
         'additional_options',
+        'travelers'
     ];
 
     protected $casts = [
@@ -29,5 +30,6 @@ class BookingBoatDetail extends Model
         'schedule_time'      => 'json',
         'variations'         => 'json',
         'additional_options' => 'json',
+        'travelers'          => 'json',
     ];
 }

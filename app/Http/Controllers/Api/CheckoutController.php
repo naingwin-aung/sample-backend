@@ -90,6 +90,10 @@ class CheckoutController extends Controller
                 $rules["products.$key.ticket_id"]             = "$condition|integer";
                 $rules["products.$key.schedule_time_id"]      = "$condition|integer";
                 $rules["products.$key.date"]                  = "$condition|date|after:today";
+                $rules["products.$key.travelers"]             = "$condition|array|min:1";
+                $rules["products.$key.travelers.*.name"]      = "$condition|string";
+                $rules["products.$key.travelers.*.email"]     = "$condition|email";
+                $rules["products.$key.travelers.*.passport"]  = "$condition|string";
                 $rules["products.$key.quantities"]            = "$condition|array";
                 $rules["products.$key.quantities.*.id"]       = "$condition|integer";
                 $rules["products.$key.quantities.*.quantity"] = "$condition|integer|min:1";

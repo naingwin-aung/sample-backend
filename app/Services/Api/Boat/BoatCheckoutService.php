@@ -94,6 +94,7 @@ class BoatCheckoutService
         $booking_boat_detail->schedule_time      = $data['schedule_time'] ?? null;
         $booking_boat_detail->variations         = $data['ticket']['prices'] ?? null;
         $booking_boat_detail->additional_options = $data['ticket']['option']['productAdditionalOptions'] ?? null;
+        $booking_boat_detail->travelers          = $data['travelers'] ?? null;
         $booking_boat_detail->save();
 
         return $booking_boat_detail;

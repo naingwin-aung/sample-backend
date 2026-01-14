@@ -73,6 +73,7 @@ class ValidateBoatProductService
             'ticket'        => $ticket,
             'zone'          => $zone,
             'schedule_time' => $scheduleTime,
+            'travelers'     => $data['travelers'] ?? [],
         ];
     }
 }
