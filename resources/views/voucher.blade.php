@@ -63,6 +63,11 @@
             color: #000;
         }
 
+        .secondary-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .small-header {
             font-size: 12px;
             color: #999999;
@@ -75,11 +80,6 @@
             background-color: #ddd;
             margin: 16px 0;
             width: 100%;
-        }
-
-        .package-name {
-            font-size: 16px;
-            font-weight: bold;
         }
 
         .row {
@@ -164,7 +164,7 @@
 
             <div>
                 <div class="small-header">Package</div>
-                <div class="package-name">Join-in Sunset Cruise Tour</div>
+                <div class="secondary-header">Join-in Sunset Cruise Tour</div>
             </div>
             <div class="divider"></div>
 

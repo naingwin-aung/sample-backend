@@ -63,6 +63,11 @@
             color: #000;
         }
 
+        .secondary-header {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .small-header {
             font-size: 12px;
             color: #999999;
@@ -75,11 +80,6 @@
             background-color: #ddd;
             margin: 16px 0;
             width: 100%;
-        }
-
-        .package-name {
-            font-size: 16px;
-            font-weight: bold;
         }
 
         .row {
@@ -96,52 +96,6 @@
         .col-50 {
             width: 50%;
             float: left;
-        }
-
-        .col-33 {
-            width: 33.33%;
-            float: left;
-        }
-
-        .ticket-separator {
-            position: relative;
-            height: 30px;
-            background-color: #fff;
-            width: 100%;
-            overflow: hidden; 
-        }
-
-        /* The Line */
-        .ticket-separator .dashed-line {
-            position: absolute;
-            top: 14px;
-            left: 0;
-            width: 100%;
-            border-top: 1.5px dashed #ccc;
-            z-index: 1;
-        }
-
-        .ticket-separator .circle {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #eeeeee;
-            border-radius: 50%;
-            top: 5px;
-            z-index: 2;
-        }
-
-        .ticket-separator .circle.left {
-            left: -10px;
-        }
-
-        .ticket-separator .circle.right {
-            right: -10px;
-        }
-
-        .center-box {
-            text-align: center;
-            padding: 30px 0;
         }
     </style>
 </head>
@@ -164,7 +118,7 @@
 
             <div>
                 <div class="small-header">Package</div>
-                <div class="package-name">Join-in Sunset Cruise Tour</div>
+                <div class="secondary-header">Join-in Sunset Cruise Tour</div>
             </div>
             <div class="divider"></div>
 
