@@ -27,4 +27,17 @@ class BookingController extends Controller
             return error($e->getMessage());
         }
     }
+
+    public function voucher($booking_number)
+    {
+        try {
+            $booking = $this->service->detail($booking_number);
+
+            return view('voucher', [
+                'booking' => $booking,
+            ]);
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
 }

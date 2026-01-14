@@ -11,9 +11,13 @@ class BookingService
         $booking = Booking::with([
             'items.boatItem.boatItemDetail'
         ])
-            ->where('booking_number', $booking_number)
-            ->where('user_id', Auth::user()->id)
-            ->firstOrFail();
+            ->where('booking_number', $booking_number);
+
+        if(Auth::check()) {
+            $booking->where('user_id', Auth::id());
+        }
+
+        $booking = $booking->firstOrFail();
 
         return $booking;
     }

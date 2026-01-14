@@ -34,3 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // Booking
     Route::get('/bookings/{booking_number}', [BookingController::class, 'show']);
 });
+
+Route::get('/bookings/{booking_number}/voucher', [BookingController::class, 'voucher']);
