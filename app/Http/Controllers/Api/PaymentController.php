@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Services\Api\PaymentService;
 use Exception;
-use App\Models\Booking;
-use App\Models\BoatSeatLog;
 use Illuminate\Http\Request;
-use App\Enums\PaymentStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Services\Api\Boat\BoatSeatLogService;
 
 class PaymentController extends Controller
 {
