@@ -112,7 +112,7 @@ class CheckoutController extends Controller
             $booking = $this->service->confirmCheckout($validatedData);
 
             // sending confirmation email temporarily
-            // Mail::to($booking->user->email)->send(new BookingConfirmEmail());
+            Mail::to($booking->user->email)->send(new BookingConfirmEmail());
 
             DB::commit();
             return success([
