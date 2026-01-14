@@ -29,6 +29,13 @@ class BookingItemResource extends JsonResource
                     'slug'  => $this->boatItem->boatItemDetail->product['slug'],
                     'image' => $this->boatItem->boatItemDetail->product['images'][0]['url'] ?? null,
                 ],
+                'piers'              => isset($this->boatItem->boatItemDetail->product['piers']) ? collect($this->boatItem->boatItemDetail->product['piers'])->map(function ($pier) {
+                        return [
+                        'id'   => $pier['id'],
+                        'name' => $pier['name'],
+                        ];
+                    }) : [],
+                'date'               => $this->boatItem->date,
                 'boat'               => [
                     'id'   => $this->boatItem->boatItemDetail->boat['id'],
                     'name' => $this->boatItem->boatItemDetail->boat['name'],
@@ -54,14 +61,14 @@ class BookingItemResource extends JsonResource
                         'quantity' => $variation['quantity'],
                         ];
                     }),
-                'additional_options' => collect($this->boatItem->boatItemDetail->additional_options)->map(function ($option) {
+                'additional_options' => isset($this->boatItem->boatItemDetail->additional_options) ? collect($this->boatItem->boatItemDetail->additional_options)->map(function ($option) {
                         return [
                         'id'       => $option['id'],
                         'name'     => $option['additional_option']['name'],
                         'price'    => $option['net_price'],
                         'quantity' => $option['quantity'],
                         ];
-                    }),
+                    }) : [],
             ],
         };
 
