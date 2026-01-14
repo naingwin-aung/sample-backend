@@ -42,7 +42,7 @@
             color: #fff;
             font-size: 20px;
             font-weight: bold;
-            margin-top: 13px;
+            margin-top: 14px;
         }
 
         .p-24 {
@@ -162,7 +162,7 @@
             <div class="header">Robinson Crousoe Sunset Cruise Tour with Dinner and Show</div>
             <div class="divider"></div>
 
-            <div class="package">
+            <div>
                 <div class="small-header">Package</div>
                 <div class="package-name">Join-in Sunset Cruise Tour</div>
             </div>
