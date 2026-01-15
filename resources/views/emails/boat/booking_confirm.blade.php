@@ -109,11 +109,6 @@
             clear: both;
         }
 
-        .col-50 {
-            width: 50%;
-            float: left;
-        }
-
         .col-65 {
             width: 65%;
             float: left;
@@ -123,10 +118,61 @@
             width: 30%;
             float: left;
         }
+        
+        .payment-col-65 {
+            width: 65%;
+            float: left;
+        }
+
+        .payment-col-30 {
+            width: 30%;
+            float: left;
+        }
+
+        .payment-ms-25 {
+            margin-left: 25px;
+        }
 
         .center-box {
             text-align: center;
             padding: 30px 0;
+        }
+
+        @media only screen and (max-width: 480px) {
+            body,
+            table,
+            td,
+            p,
+            div {
+                font-size: 12px !important;
+            }
+
+            .header {
+                font-size: 18px !important;
+            }
+
+            .secondary-header {
+                font-size: 14px !important;
+            }
+
+            .third-header {
+                font-size: 12px !important;
+            }
+
+            .col-65,
+            .col-30 {
+                width: 100% !important;
+                float: none !important;
+            }
+
+            .ms-25 {
+                margin-left: 0 !important;
+                margin-top: 10px !important;
+            }
+
+            .payment-ms-25 {
+                margin-left: 0 !important;
+            }
         }
     </style>
 </head>
@@ -155,8 +201,8 @@
             </div>
             <br>
             <div class="divider"></div>
+            <br>
 
-            <div class="secondary-header mb-20">Booking Details</div>
             <div class="row mb-10">
                 <div class="col-65">
                     <div class="small-header">Booking No: ABC123456789</div>
@@ -189,22 +235,23 @@
 
             <div class="divider"></div>
 
-            <div class="secondary-header mb-20">Payment Details</div>
-            <div class="row mb-10">
-                <div class="col-65">
+            <div class="row">
+                <div class="payment-col-65">
                     <div>Subtotal</div>
                 </div>
-                <div class="col-30">
-                    <div class="ms-25">1,200 THB</div>
+                <div class="payment-col-30">
+                    <div class="payment-ms-25">1,200 THB</div>
                 </div>
             </div>
 
-            <div class="row mb-10">
-                <div class="col-65">
+            <br>
+
+            <div class="row">
+                <div class="payment-col-65">
                     <div class="third-header">Grand Total</div>
                 </div>
-                <div class="col-30">
-                    <div class="ms-25 third-header">1,200 THB</div>
+                <div class="payment-col-30">
+                    <div class="payment-ms-25 third-header">1,200 THB</div>
                 </div>
             </div>
 
@@ -213,7 +260,8 @@
             <div class="center-box">
                 If you have received this communication in error, please do not forward its contents; notify the sender
                 and delete it and any attachments. This message may contain information that is confidential and legally
-                privileged. Unless you are the addressee, you may not use, copy or disclose to anyone this message or any
+                privileged. Unless you are the addressee, you may not use, copy or disclose to anyone this message or
+                any
                 information contained in it.
             </div>
         </div>
