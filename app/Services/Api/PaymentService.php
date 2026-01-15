@@ -28,55 +28,58 @@ class PaymentService
                     'payment_status' => PaymentStatusEnum::PAID->value,
                 ]);
 
-                $booking_boat = $item->boatItem;
-
-                $boat_seat_log = (new BoatSeatLogService())->check([
-                    'product_id'       => $booking_boat->product_id,
-                    'option_id'        => $booking_boat->option_id,
-                    'boat_id'          => $booking_boat->boat_id,
-                    'zone_id'          => $booking_boat->zone_id,
-                    'ticket_id'        => $booking_boat->ticket_id,
-                    'schedule_time_id' => $booking_boat->schedule_time_id,
-                    'date'             => $booking_boat->date,
-                ]);
-
-                if (!$boat_seat_log) {
-                    $current_seats = $booking_boat->boatItemDetail->zone['capacity'] ?? 0;
-                } else {
-                    $current_seats = $boat_seat_log->available_seats;
-                }
-
-                if ($current_seats < $booking_boat->total_quantity) {
-                    // send refund email to user and admin
-                    throw new Exception('Boat seat not available, please contact support for refund process.');
-                }
-
-                $detail = $booking_boat->boatItemDetail;
-
-                $log = [
-                    'booking_number'   => $booking->booking_number,
-                    'product_id'       => $booking_boat->product_id,
-                    'option_id'        => $booking_boat->option_id,
-                    'boat_id'          => $booking_boat->boat_id,
-                    'zone_id'          => $booking_boat->zone_id,
-                    'ticket_id'        => $booking_boat->ticket_id,
-                    'schedule_time_id' => $booking_boat->schedule_time_id,
-                    'date'             => $booking_boat->date,
-                    'allocation_seats' => $booking_boat->boatItemDetail->zone['capacity'] ?? 0,
-                    'current_seats'    => $current_seats,
-                    'booked_seats'     => $booking_boat->total_quantity,
-                    'available_seats'  => $current_seats - $booking_boat->total_quantity,
-                    'product'          => $detail->product,
-                    'option'           => $detail->option,
-                    'boat'             => $detail->boat,
-                    'zone'             => $detail->zone,
-                    'ticket'           => $detail->ticket,
-                    'schedule_time'    => $detail->schedule_time,
-                    'variations'       => $detail->variations,
-                ];
-
-                (new BoatSeatLogService())->create($log);
+                $this->processBoat($item->boatItem, $booking->booking_number);
             }
         });
+    }
+
+    private function processBoat($booking_boat, $booking_number)
+    {
+        $boat_seat_log = (new BoatSeatLogService())->check([
+            'product_id'       => $booking_boat->product_id,
+            'option_id'        => $booking_boat->option_id,
+            'boat_id'          => $booking_boat->boat_id,
+            'zone_id'          => $booking_boat->zone_id,
+            'ticket_id'        => $booking_boat->ticket_id,
+            'schedule_time_id' => $booking_boat->schedule_time_id,
+            'date'             => $booking_boat->date,
+        ]);
+
+        if (!$boat_seat_log) {
+            $current_seats = $booking_boat->boatItemDetail->zone['capacity'] ?? 0;
+        } else {
+            $current_seats = $boat_seat_log->available_seats;
+        }
+
+        if ($current_seats < $booking_boat->total_quantity) {
+            // send refund email to user and admin
+            throw new Exception('Boat seat not available, please contact support for refund process.');
+        }
+
+        $detail = $booking_boat->boatItemDetail;
+
+        $log = [
+            'booking_number'   => $booking_number,
+            'product_id'       => $booking_boat->product_id,
+            'option_id'        => $booking_boat->option_id,
+            'boat_id'          => $booking_boat->boat_id,
+            'zone_id'          => $booking_boat->zone_id,
+            'ticket_id'        => $booking_boat->ticket_id,
+            'schedule_time_id' => $booking_boat->schedule_time_id,
+            'date'             => $booking_boat->date,
+            'allocation_seats' => $booking_boat->boatItemDetail->zone['capacity'] ?? 0,
+            'current_seats'    => $current_seats,
+            'booked_seats'     => $booking_boat->total_quantity,
+            'available_seats'  => $current_seats - $booking_boat->total_quantity,
+            'product'          => $detail->product,
+            'option'           => $detail->option,
+            'boat'             => $detail->boat,
+            'zone'             => $detail->zone,
+            'ticket'           => $detail->ticket,
+            'schedule_time'    => $detail->schedule_time,
+            'variations'       => $detail->variations,
+        ];
+
+        (new BoatSeatLogService())->create($log);
     }
 }
