@@ -171,7 +171,7 @@
             }
 
             .payment-ms-25 {
-                margin-left: 0 !important;
+                margin-left: 8px !important;
             }
         }
     </style>
