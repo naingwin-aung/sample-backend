@@ -6,6 +6,7 @@ use Exception;
 use App\Http\Controllers\Controller;
 use App\Services\Api\BookingService;
 use App\Http\Resources\Api\Booking\BookingDetailResource;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -33,9 +34,11 @@ class BookingController extends Controller
         try {
             $booking = $this->service->detail($booking_number);
 
-            return view('voucher', [
+            $pdf = Pdf::loadView('voucher', [
                 'booking' => $booking,
             ]);
+
+            return $pdf->stream('invoice.pdf');
         } catch (Exception $e) {
             return error($e->getMessage());
         }
