@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductTicketPrice extends Model
 {
+    const ADULT = 'Adult';
+    const CHILD = 'Child';
+    
     protected $table = 'product_ticket_prices';
 
     protected $fillable = [

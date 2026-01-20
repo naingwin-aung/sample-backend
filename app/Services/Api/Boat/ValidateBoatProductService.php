@@ -5,6 +5,8 @@ use Exception;
 use App\Models\BoatZone;
 use App\Models\ProductTicket;
 use App\Enums\ProductTypeEnum;
+use App\Exceptions\MyException;
+use App\Models\ProductTicketPrice;
 use App\Models\ProductScheduleTime;
 
 class ValidateBoatProductService
@@ -16,8 +18,12 @@ class ValidateBoatProductService
         if (isset($data['additional_options']) && count($data['additional_options']) > 0) {
             $additionalOptionsById = collect($data['additional_options'])->keyBy('id');
 
-            if($quantitiesById->values()->sum('quantity') !== $additionalOptionsById->values()->sum('quantity')) {
-                throw new Exception('The total quantity of additional options cannot exceed the total quantity of tickets selected.');
+            $adult_quantity = $quantitiesById[ProductTicketPrice::whereIn('id', $quantitiesById->keys())->where('name', ProductTicketPrice::ADULT)->first()->id]['quantity'] ?? 0;
+
+            foreach($additionalOptionsById as $additionalOption) {
+                if ($additionalOption['quantity'] !== $adult_quantity) {
+                    throw new MyException('The quantity of each additional option cannot exceed the total quantity of adult tickets selected.');
+                }
             }
         } else {
             $additionalOptionsById = collect();

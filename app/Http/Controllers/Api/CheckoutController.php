@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\TestLog;
 use Illuminate\Http\Request;
+use App\Exceptions\MyException;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -68,6 +69,11 @@ class CheckoutController extends Controller
                 'data'        => $data_collection,
                 'total_price' => $total_price,
             ], 'Checkout processed successfully.');
+        } catch (MyException $e) {
+            return response()->json([
+                'success' => 'false',
+                'message' => $e->getMessage(),
+            ], 400);
         } catch (Exception $e) {
             return error($e->getMessage());
         }
@@ -112,7 +118,7 @@ class CheckoutController extends Controller
             $booking = $this->service->confirmCheckout($validatedData);
 
             // sending confirmation email temporarily
-            Mail::to($booking->user->email)->send(new BookingConfirmEmail());
+            // Mail::to($booking->user->email)->send(new BookingConfirmEmail());
 
             DB::commit();
             return success([
