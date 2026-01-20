@@ -30,6 +30,7 @@ class BoatSeatLog extends Model
         'ticket',
         'schedule_time',
         'variations',
+        'additional_options',
         'logged_at',
     ];
 }

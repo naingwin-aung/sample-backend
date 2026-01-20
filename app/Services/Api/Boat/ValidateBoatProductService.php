@@ -20,7 +20,7 @@ class ValidateBoatProductService
 
             $adult_quantity = $quantitiesById[ProductTicketPrice::whereIn('id', $quantitiesById->keys())->where('name', ProductTicketPrice::ADULT)->first()->id]['quantity'] ?? 0;
 
-            foreach($additionalOptionsById as $additionalOption) {
+            foreach ($additionalOptionsById as $additionalOption) {
                 if ($additionalOption['quantity'] !== $adult_quantity) {
                     throw new MyException('The quantity of each additional option cannot exceed the total quantity of adult tickets selected.');
                 }
@@ -72,6 +72,21 @@ class ValidateBoatProductService
 
         $scheduleTime = ProductScheduleTime::where('id', $data['schedule_time_id'])
             ->firstOrFail();
+
+        [$available_seats, $check_availability] = (new CheckAvailableSeatService())->check(
+            $zone['capacity'] ?? 0,
+            $ticket['product']['id'],
+            $ticket['option']['id'],
+            $zone['id'],
+            $ticket['id'],
+            $scheduleTime['id'],
+            $data['date'],
+            $ticket->prices->sum('quantity')
+        );
+
+        if (!$check_availability) {
+            throw new MyException('Sorry, there aren’t enough seats available for the quantity you selected. Please select another date or reduce the number of tickets.');
+        }
 
         return [
             'product_type'  => ProductTypeEnum::BOAT->value,

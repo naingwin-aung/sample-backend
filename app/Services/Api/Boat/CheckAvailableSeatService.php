@@ -5,18 +5,18 @@ use App\Services\Api\Boat\BoatSeatLogService;
 
 class CheckAvailableSeatService
 {
-    public function check(array $product, int $requested_quantity)
+    public function check(int $allocation_seat, int $product_id, int $option_id, int $zone_id, int $ticket_id, int $schedule_time_id, string $date, int $requested_quantity)
     {
         $allocation_seat = $product['zone']['capacity'] ?? 0;
 
         $boat_seat_log = (new BoatSeatLogService())->check([
-            'product_id'       => $product['ticket']['product']['id'],
-            'option_id'        => $product['ticket']['option']['id'],
-            'boat_id'          => $product['zone']['boat']['id'],
-            'zone_id'          => $product['zone']['id'],
-            'ticket_id'        => $product['ticket']['id'],
-            'schedule_time_id' => $product['schedule_time']['id'],
-            'date'             => $product['date'],
+            'product_id'       => $product_id,
+            'option_id'        => $option_id,
+            'boat_id'          => $zone_id,
+            'zone_id'          => $zone_id,
+            'ticket_id'        => $ticket_id,
+            'schedule_time_id' => $schedule_time_id,
+            'date'             => $date,
         ]);
 
         if(!$boat_seat_log) {

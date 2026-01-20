@@ -4,6 +4,7 @@ namespace App\Services\Api;
 use Exception;
 use App\Models\Booking;
 use App\Enums\ProductTypeEnum;
+use App\Exceptions\MyException;
 use App\Enums\PaymentStatusEnum;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Api\Boat\BoatCheckoutService;
@@ -35,10 +36,19 @@ class CheckoutService
         $each_booking_total_prices = [];
         foreach ($this->products as $product) {
             if ($product['product_type'] === ProductTypeEnum::BOAT->value) {
-                [$available_seats, $check_availability] = (new CheckAvailableSeatService())->check($product, $product['ticket']->prices->sum('quantity'));
+                [$available_seats, $check_availability] = (new CheckAvailableSeatService())->check(
+                    $product['zone']['capacity'] ?? 0,
+                    $product['ticket']['product']['id'],
+                    $product['ticket']['option']['id'],
+                    $product['zone']['id'],
+                    $product['ticket']['id'],
+                    $product['schedule_time']['id'],
+                    $product['date'],
+                    $product['ticket']->prices->sum('quantity')
+                );
 
                 if (!$check_availability) {
-                    throw new Exception('Sorry, there aren’t enough seats available for the quantity you selected. Please select another date or reduce the number of tickets.');
+                    throw new MyException('Sorry, there aren’t enough seats available for the quantity you selected. Please select another date or reduce the number of tickets.');
                 }
 
                 $each_booking_total_prices[] = (new BoatCheckoutService($booking))->create($product); // must return total price
