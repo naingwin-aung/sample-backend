@@ -88,6 +88,18 @@ class ValidateBoatProductService
             throw new MyException('Sorry, there aren’t enough seats available for the quantity you selected. Please select another date or reduce the number of tickets.');
         }
 
+        $closing_dates = (new CheckClosingDateService())->check(
+            $ticket['option']['closing_type'],
+            $ticket['option']['closing_dates'],
+            $ticket['option']['closing_days'],
+            $ticket['option']['start_date'],
+            $ticket['option']['end_date']
+        );
+
+        if (in_array($data['date'], $closing_dates)) {
+            throw new MyException('The selected date is not available for booking. Please choose another date.');
+        }
+
         return [
             'product_type'  => ProductTypeEnum::BOAT->value,
             'date'          => $data['date'],
