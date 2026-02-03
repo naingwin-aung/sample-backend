@@ -7,7 +7,7 @@ class CheckAvailableSeatService
 {
     public function check(int $allocation_seat, int $product_id, int $option_id, int $zone_id, int $ticket_id, int $schedule_time_id, string $date, int $requested_quantity)
     {
-        $allocation_seat = $product['zone']['capacity'] ?? 0;
+        $allocation_seat = $allocation_seat ?? 0;
 
         $boat_seat_log = (new BoatSeatLogService())->check([
             'product_id'       => $product_id,
