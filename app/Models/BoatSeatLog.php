@@ -33,4 +33,8 @@ class BoatSeatLog extends Model
         'additional_options',
         'logged_at',
     ];
+
+    protected $casts = [
+        'date' => 'date'
+    ];
 }

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Services\Api\BookingService;
 use App\Http\Resources\Api\Booking\BookingDetailResource;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -39,6 +40,24 @@ class BookingController extends Controller
             ]);
 
             return $pdf->stream('invoice.pdf');
+        } catch (Exception $e) {
+            return error($e->getMessage());
+        }
+    }
+
+    public function bookingsCalendar($productId, Request $request)
+    {
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date'   => 'nullable|date',
+        ]);
+
+        try {
+            $data = $this->service->bookingsCalendar($productId, $request->start_date, $request->end_date);
+
+            return success([
+                'data' => $data,
+            ], 'Bookings calendar retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
         }

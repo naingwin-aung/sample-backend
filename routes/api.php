@@ -36,3 +36,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/bookings/{booking_number}/voucher', [BookingController::class, 'voucher']);
+Route::get('/bookings-calendar/{productId}', [BookingController::class, 'bookingsCalendar']);
