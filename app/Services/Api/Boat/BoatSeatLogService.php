@@ -2,6 +2,7 @@
 namespace App\Services\Api\Boat;
 
 use App\Models\BoatSeatLog;
+use Carbon\Carbon;
 
 class BoatSeatLogService
 {
@@ -13,7 +14,7 @@ class BoatSeatLogService
             ->where('zone_id', $criteria['zone_id'])
             ->where('ticket_id', $criteria['ticket_id'])
             ->where('schedule_time_id', $criteria['schedule_time_id'])
-            ->where('date', $criteria['date'])
+            ->where('date', Carbon::parse($criteria['date'])->startOfDay())
             ->orderByDesc('logged_at')
             ->first();
     }

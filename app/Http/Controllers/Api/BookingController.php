@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Services\Api\BookingService;
 use App\Http\Resources\Api\Booking\BookingDetailResource;
+use App\Http\Resources\Api\Booking\BookingCalendarResource;
 
 class BookingController extends Controller
 {
@@ -57,6 +58,7 @@ class BookingController extends Controller
 
             return success([
                 'data' => $data,
+                // 'data' => BookingCalendarResource::collection($data),
             ], 'Bookings calendar retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
