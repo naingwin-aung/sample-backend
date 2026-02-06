@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\Booking;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Booking\BookingItemResource;
@@ -16,9 +17,9 @@ class BookingCalendarResource extends JsonResource
     public function toArray(Request $request) : array
     {
         $result = [
-            'id'              => $this->_id,
-            'date'            => $this->date,
-            'available_seats' => $this->available_seats,
+            'id'               => $this->_id,
+            'date'             => Carbon::parse($this->date)->format('Y-m-d'),
+            'available_seats'  => $this->available_seats,
         ];
 
         return $result;

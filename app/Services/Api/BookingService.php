@@ -26,7 +26,7 @@ class BookingService
         return $booking;
     }
 
-    public function bookingsCalendar($product_id, $start_date, $end_date)
+    public function bookingsCalendar($product_id, $year, $month)
     {
         // 1. Prepare your Date Match conditions first
         $matchConditions = [
@@ -34,15 +34,14 @@ class BookingService
         ];
 
         // Add date filters to the match array
-        if ($start_date && $end_date) {
+        if ($year && $month) {
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate   = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
             $matchConditions['date'] = [
-                '$gte' => new MongoUTCDateTime(Carbon::parse($start_date)->startOfDay()),
-                '$lte' => new MongoUTCDateTime(Carbon::parse($end_date)->endOfDay())
+                '$gte' => new MongoUTCDateTime($startDate),
+                '$lte' => new MongoUTCDateTime($endDate)
             ];
-        } elseif ($start_date) {
-            $matchConditions['date'] = ['$gte' => new MongoUTCDateTime(Carbon::parse($start_date)->startOfDay())];
-        } elseif ($end_date) {
-            $matchConditions['date'] = ['$lte' => new MongoUTCDateTime(Carbon::parse($end_date)->endOfDay())];
         }
 
         // 2. Run the Aggregation
@@ -50,7 +49,7 @@ class BookingService
         $mongoConnection = DB::connection('mongodb');
         /** @var \MongoDB\Collection $collection */
         $collection = $mongoConnection->getCollection((new BoatSeatLog)->getTable());
-        $cursor = $collection->aggregate([
+        $cursor     = $collection->aggregate([
             // Stage 1: Filter the data (Performance optimization)
             [
                 '$match' => $matchConditions
@@ -88,7 +87,7 @@ class BookingService
 
         // 3. (Optional) Hydrate back into Eloquent Models if you need Model methods
         $results = $cursor->toArray();
-        $seats = BoatSeatLog::hydrate($results);
+        $seats   = BoatSeatLog::hydrate($results);
         return $seats;
     }
 }

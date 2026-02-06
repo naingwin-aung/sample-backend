@@ -49,16 +49,16 @@ class BookingController extends Controller
     public function bookingsCalendar($productId, Request $request)
     {
         $request->validate([
-            'start_date' => 'nullable|date',
-            'end_date'   => 'nullable|date',
+            'year'  => 'nullable|numeric',
+            'month' => 'nullable|numeric|min:1|max:12',
         ]);
 
         try {
-            $data = $this->service->bookingsCalendar($productId, $request->start_date, $request->end_date);
+            $data = $this->service->bookingsCalendar($productId, $request->year, $request->month);
 
             return success([
-                'data' => $data,
-                // 'data' => BookingCalendarResource::collection($data),
+                // 'data' => $data,
+                'data' => BookingCalendarResource::collection($data),
             ], 'Bookings calendar retrieved successfully.');
         } catch (Exception $e) {
             return error($e->getMessage());
